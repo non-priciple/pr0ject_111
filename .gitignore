@@ -1,0 +1,6 @@
+/.vs/
+/cocos2d/
+/proj.win32/.vs
+*.ipch
+*.pch
+*.pdb
