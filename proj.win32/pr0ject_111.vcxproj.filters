@@ -32,6 +32,9 @@
     <ClInclude Include="MainMenu.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

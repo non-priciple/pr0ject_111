@@ -1,21 +1,6 @@
-﻿  AppDelegate.cpp
-  main.cpp
-  MainMenu.cpp
+﻿  MainMenu.cpp
 e:\pr0ject_111\pr0ject_111\proj.win32\mainmenu.cpp(39): warning C4305: “参数”: 从“double”到“float”截断
-AppDelegate.obj : warning LNK4075: 忽略“/EDITANDCONTINUE”(由于“/SAFESEH”规范)
-    正在创建库 E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\pr0ject_111.lib 和对象 E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\pr0ject_111.exp
+e:\pr0ject_111\pr0ject_111\proj.win32\mainmenu.cpp(57): warning C4305: “参数”: 从“double”到“float”截断
   pr0ject_111.vcxproj -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\pr0ject_111.exe
   pr0ject_111.vcxproj -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\pr0ject_111.pdb (Full PDB)
-  E:\pr0ject_111\pr0ject_111\Resources\CloseNormal.png -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\CloseNormal.png
-  E:\pr0ject_111\pr0ject_111\Resources\CloseSelected.png -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\CloseSelected.png
-  E:\pr0ject_111\pr0ject_111\Resources\HelloWorld.png -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\HelloWorld.png
-  E:\pr0ject_111\pr0ject_111\Resources\StartMenu_BG.png -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\StartMenu_BG.png
-  E:\pr0ject_111\pr0ject_111\Resources\StartMenu_startbutton.png -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\StartMenu_startbutton.png
-  E:\pr0ject_111\pr0ject_111\Resources\StartMenu_startbutton_MP.png -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\StartMenu_startbutton_MP.png
-  E:\pr0ject_111\pr0ject_111\Resources\StartMenu_titlelogo.png -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\StartMenu_titlelogo.png
-  E:\pr0ject_111\pr0ject_111\Resources\titlemusic.mp3 -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\titlemusic.mp3
-  E:\pr0ject_111\pr0ject_111\Resources\fonts\arial.ttf -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\fonts\arial.ttf
-  E:\pr0ject_111\pr0ject_111\Resources\fonts\BRADHITC.TTF -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\fonts\BRADHITC.TTF
-  E:\pr0ject_111\pr0ject_111\Resources\fonts\Marker Felt.ttf -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\fonts\Marker Felt.ttf
-  E:\pr0ject_111\pr0ject_111\Resources\res\.gitkeep -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\res\.gitkeep
-  复制了 12 个文件
+  复制了 0 个文件
