@@ -35,10 +35,10 @@ public:
 		this->setScale(sqrt(_level) / 10);
 		_radius = sqrt(_level) * 339 / 10;
 	}
-	void addLevel(const int delLevel)                              //when eating other balls,call this
+	void addLevel(const int delLevel)                              //after eating other balls,call this
 	{
 		_level += delLevel;
-		if (_level > 100) _level = 100;
+		if (_level > 100) _level = 100;								//the level limit should be adjusted later
 	}
 	void division(const cocos2d::Vec2 & vec)
 	{
