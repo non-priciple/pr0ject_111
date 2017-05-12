@@ -1,5 +1,5 @@
 //This is the main menu
-#include <MainMenu.h>
+#include "MainMenu.h"
 #include<ui/CocosGUI.h>
 USING_NS_CC;
 using namespace ui;
@@ -53,5 +53,25 @@ bool MainBG::init()
 	auto backGround = Sprite::create("StartMenu_BG.png");
 	backGround->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(backGround);
+auto huaJi = Sprite::create("huaJi.png");
+	huaJi->setScale(0.4);
+	huaJi->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
+	this->addChild(huaJi,1,"HJ");
+	auto listener = EventListenerMouse::create();
+	listener->onMouseMove = [=](Event* event)
+	{
+		EventMouse* _event = (EventMouse*)event;
+		x = _event->getCursorX();
+		y = _event->getCursorY();
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	this->schedule(schedule_selector(MainBG::update), 0.1f);
 	return true;
+}
+
+void MainBG::update(float dt)
+{
+	this->getChildByName("HJ")->stopAllActions();
+	auto moveTo = MoveTo::create(0.8,Vec2(x,y));
+	this->getChildByName("HJ")->runAction(moveTo);
 }

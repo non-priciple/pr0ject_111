@@ -21,6 +21,9 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="BallSelectMenu.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -30,6 +33,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Balls.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="BallSelectMenu.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
