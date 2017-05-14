@@ -1,7 +1,8 @@
 //This is the character
-//default designed size is  480*480 p
-//default designed radius=339 p
+//default designed size is  480*480 p          //maybe a little problem
+//default designed radius=339 p                //set at 260 provides better user experience
 #include <cocos2d.h>
+
 class Balls : public cocos2d::Sprite
 {
 private:
@@ -9,11 +10,11 @@ private:
 	int _radius;
 	int _identity;                                                     //sync with the id of Character
 public:
-	virtual void useSkill();                                      //skill to be done
+	//skill to be done
 	static Balls* createWithFileName(const std::string & filename)
 	{
 		Balls *ball = new(std::nothrow) Balls;
-		if (ball&&ball->initWithFile(filename) && ball->initStatus())
+		if (ball&&ball->initWithFile(filename) && ball->initStatus(1))
 		{
 			ball->autorelease();
 			return ball;
@@ -21,10 +22,12 @@ public:
 		CC_SAFE_DELETE(ball);
 		return nullptr;
 	}
-	bool initStatus()
+
+	bool initStatus(int tlevel)
 	{
-		_level = 1;
+		_level = tlevel;
 		updateRadius();
+		return true;
 	}
 	void setID(int identity)
 	{
@@ -33,7 +36,7 @@ public:
 	void updateRadius()                                          //update the radius and size when level changes
 	{
 		this->setScale(sqrt(_level) / 10);
-		_radius = sqrt(_level) * 339 / 10;
+		_radius = sqrt(_level) * 260 / 10;
 	}
 	void addLevel(const int delLevel)                              //after eating other balls,call this
 	{
@@ -46,5 +49,36 @@ public:
 		_level = _level / 2;
 		updateRadius();
 	}
-};
+	void swallow(cocos2d::Layer *_Battlefield)
+	{
+		cocos2d::Vector<Node*> _allballs;
+		_allballs = _Battlefield->getChildren();
+		for (auto _target : _allballs)
+		{
+			if (_target->isVisible())
+			{
+				Balls* _target_b = dynamic_cast<Balls*>(_target);
+				if (_target_b != nullptr)
+				{
+					float _distance = cocos2d::ccpDistance(_target->getPosition(), this->getPosition());
+					if (_distance <= this->_radius + _target_b->_radius)
+					{
+						if (this->_level > _target_b->_level)
+						{
+							_target->setVisible(false);
+							this->addLevel(_target_b->_level);
+						}
+						else if (this->_level < _target_b->_level)
+						{
+							this->setVisible(false);
+							this->_level = 1;
+						}
+					}
+				}
 
+			}
+
+		}
+	}
+
+};
