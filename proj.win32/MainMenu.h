@@ -6,9 +6,12 @@ class MainBG :public cocos2d::Layer
 public:
 	float x;
 	float y;
+	cocos2d::EventListenerKeyboard *k_listener;
+	cocos2d::EventKeyboard::KeyCode _keycode;
 	virtual bool init();
 	void update(float dt);
 	CREATE_FUNC(MainBG);
+	
 };
 class MainMenu :public cocos2d::Layer 
 {

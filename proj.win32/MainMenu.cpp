@@ -55,47 +55,54 @@ bool MainBG::init()
 	backGround->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(backGround);
 	Balls* huaJi = Balls::createWithFileName("huaJi.png");
-	huaJi->initStatus(10);
+	huaJi->initStatus(10,1);
 	huaJi->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(huaJi, 1, "HJ");
 
 
 	// test balls
-	Balls*test1 = Balls::createWithFileName("test.png");
-	test1->initStatus(3);
+	Balls*test1 = Balls::createWithFileName("huaji.png");
+	test1->initStatus(3,0);
 	test1->setPosition(Vec2(visibleSize.width / 2 + originPos.x + 300, visibleSize.height / 2 + originPos.y + 300));
 	this->addChild(test1, 1);
-	Balls*test2 = Balls::createWithFileName("test.png");
-	test2->initStatus(1);
+	Balls*test2 = Balls::createWithFileName("huaji.png");
+	test2->initStatus(1,0);
 	test2->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y));
 	this->addChild(test2, 1);
-	Balls*test3 = Balls::createWithFileName("test.png");
-	test3->initStatus(5);
+	Balls*test3 = Balls::createWithFileName("huaji.png");
+	test3->initStatus(5,0);
 	test3->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y + 300));
 	this->addChild(test3, 1);
-	Balls*test4 = Balls::createWithFileName("test.png");
-	test4->initStatus(12);
+	Balls*test4 = Balls::createWithFileName("huaji.png");
+	test4->initStatus(7,0);
 	test4->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y - 300));
 	this->addChild(test4, 1);
 	//
-	auto listener = EventListenerMouse::create();
-	listener->onMouseMove = [=](Event* event)
+	auto m_listener = EventListenerMouse::create();
+	m_listener->onMouseMove = [=](Event* event)
 	{
 		EventMouse* _event = (EventMouse*)event;
 		x = _event->getCursorX();
 		y = _event->getCursorY();
 	};
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_listener, this);
+	this->k_listener = EventListenerKeyboard::create();
+	k_listener->onKeyPressed = [=](EventKeyboard::KeyCode keycode, Event* event)
+	{
+		_keycode = keycode;
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(k_listener, this);
 	this->schedule(schedule_selector(MainBG::update), 0.1f);
 	return true;
 }
 
 void MainBG::update(float dt)
 {
-	this->getChildByName("HJ")->stopAllActions();
-	auto moveTo = MoveTo::create(0.8, Vec2(x, y));
-	this->getChildByName("HJ")->runAction(moveTo);
+	
+	std::string name = "HJ";
 	Balls* _yourball = dynamic_cast<Balls*>(this->getChildByName("HJ"));
+	_yourball->movement(name,x,y,this);
 	_yourball->swallow(this);
+	_yourball->division(x,y,_keycode,this,this->k_listener);
 	_yourball->updateRadius();
 }
