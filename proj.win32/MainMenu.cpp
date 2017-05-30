@@ -105,4 +105,5 @@ void MainBG::update(float dt)
 	_yourball->swallow(this);
 	_yourball->division(x,y,_keycode,this,this->k_listener);
 	_yourball->updateRadius();
+	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;
 }

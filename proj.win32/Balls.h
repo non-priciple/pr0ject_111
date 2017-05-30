@@ -72,9 +72,9 @@ public:
 	}
 	void division(float x, float y, cocos2d::EventKeyboard::KeyCode _keycode, cocos2d::Layer* _Battelfield, cocos2d::EventListenerKeyboard* listener)//unfinished;
 	{
-		if (_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&this->_level > 5)
+		if (_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&this->_level > 2)
 		{
-			_eventDispatcher->removeEventListener(listener);
+			
 			this->_level = this->_level / 2;
 			updateRadius();
 			Balls* substitute = this->createWithBallsFrame(this->getSpriteFrame());
@@ -84,7 +84,7 @@ public:
 			substitute->runAction(moveTo);
 			_Battelfield->addChild(substitute, 1);
 			substitute->swallow(_Battelfield);
-
+			
 		}
 	}
 	void movement(std::string &name, float x, float y, cocos2d::Layer *_Battlefield)
