@@ -18,7 +18,10 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="BallSelectMenu.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +32,16 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
+    <ClInclude Include="MainMenu.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Balls.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="BallSelectMenu.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
