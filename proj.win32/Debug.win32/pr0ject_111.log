@@ -1,3 +1,12 @@
-﻿  pr0ject_111.vcxproj -> D:\BIGPROJECT\pr0ject_111\proj.win32\Debug.win32\pr0ject_111.exe
+﻿  MainMenu.cpp
+d:\bigproject\pr0ject_111\proj.win32\balls.h(82): warning C4305: “参数”: 从“double”到“float”截断
+d:\bigproject\pr0ject_111\proj.win32\balls.h(107): warning C4996: 'cocos2d::ccpDistance': 被声明为已否决
+  d:\bigproject\pr0ject_111\cocos2d\cocos\deprecated\ccdeprecated.h(272): note: 参见“cocos2d::ccpDistance”的声明
+d:\bigproject\pr0ject_111\proj.win32\balls.h(135): warning C4996: 'cocos2d::ccpDistance': 被声明为已否决
+  d:\bigproject\pr0ject_111\cocos2d\cocos\deprecated\ccdeprecated.h(272): note: 参见“cocos2d::ccpDistance”的声明
+d:\bigproject\pr0ject_111\proj.win32\balls.h(161): warning C4996: 'cocos2d::ccpDistance': 被声明为已否决
+  d:\bigproject\pr0ject_111\cocos2d\cocos\deprecated\ccdeprecated.h(272): note: 参见“cocos2d::ccpDistance”的声明
+d:\bigproject\pr0ject_111\proj.win32\mainmenu.cpp(40): warning C4305: “参数”: 从“double”到“float”截断
+  pr0ject_111.vcxproj -> D:\BIGPROJECT\pr0ject_111\proj.win32\Debug.win32\pr0ject_111.exe
   pr0ject_111.vcxproj -> D:\BIGPROJECT\pr0ject_111\proj.win32\Debug.win32\pr0ject_111.pdb (Full PDB)
   复制了 0 个文件

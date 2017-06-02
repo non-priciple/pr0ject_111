@@ -70,11 +70,10 @@ public:
 	{
 		return sqrt(this->_level*1.5 / 10);
 	}
-	void division(float x, float y, cocos2d::EventKeyboard::KeyCode _keycode, cocos2d::Layer* _Battelfield, cocos2d::EventListenerKeyboard* listener)//unfinished;
+	void division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield, cocos2d::EventListenerKeyboard* listener)//unfinished;
 	{
 		if (_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&this->_level > 2)
 		{
-			
 			this->_level = this->_level / 2;
 			updateRadius();
 			Balls* substitute = this->createWithBallsFrame(this->getSpriteFrame());
