@@ -5,5 +5,11 @@ class BallSelectMenu :public cocos2d::Layer
 public:
 	static cocos2d::Scene * createScene();
 	virtual bool init();
+	void selectX();
+	void selectH();
+	void selectC();
+	void startWithX();
+	void startWithH();
+	void startWithC();
 	CREATE_FUNC(BallSelectMenu);
 };

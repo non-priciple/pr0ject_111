@@ -44,6 +44,9 @@
     <ClInclude Include="BallSelectMenu.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="BattleField.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

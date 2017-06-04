@@ -74,7 +74,7 @@ public:
 	{
 		if (_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&this->_level > 5)
 		{
-			_eventDispatcher->removeEventListener(listener);
+			//_eventDispatcher->removeEventListener(listener);
 			this->_level = this->_level / 2;
 			updateRadius();
 			Balls* substitute = this->createWithBallsFrame(this->getSpriteFrame());
@@ -83,8 +83,6 @@ public:
 			auto moveTo = cocos2d::MoveTo::create(0.1, cocos2d::Vec2(x, y));
 			substitute->runAction(moveTo);
 			_Battelfield->addChild(substitute, 1);
-			substitute->swallow(_Battelfield);
-
 		}
 	}
 	void movement(std::string &name, float x, float y, cocos2d::Layer *_Battlefield)
@@ -170,7 +168,6 @@ public:
 						else if (this->_level < _target_b->_level)
 						{
 							this->setVisible(false);
-							this->_level = 1;
 						}
 					}
 				}
