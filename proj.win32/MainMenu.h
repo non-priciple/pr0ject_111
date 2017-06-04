@@ -6,8 +6,8 @@ class MainBG :public cocos2d::Layer
 public:
 	float x;
 	float y;
-	cocos2d::EventListenerKeyboard *k_listener;
 	cocos2d::EventKeyboard::KeyCode _keycode;
+	cocos2d::EventListenerKeyboard *k_listener;
 	virtual bool init();
 	void update(float dt);
 	CREATE_FUNC(MainBG);
@@ -17,6 +17,7 @@ class MainMenu :public cocos2d::Layer
 {
 public:
 	static cocos2d::Scene* createScene();
+	static void switchSceneToSelect(Ref *pSender);
 	virtual bool init();
 	CREATE_FUNC(MainMenu);
 };

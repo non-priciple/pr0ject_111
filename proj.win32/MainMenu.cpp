@@ -1,9 +1,15 @@
 //This is the main menu
 #include "MainMenu.h"
-#include"Balls.h"
+#include "Balls.h"
+#include "BallSelectMenu.h"
 #include<ui/CocosGUI.h>
 USING_NS_CC;
 using namespace ui;
+void MainMenu::switchSceneToSelect(Ref *pSender)
+{
+	auto transition = TransitionPageTurn::create(1.2f, BallSelectMenu::createScene(),false);
+	Director::getInstance()->replaceScene(transition);
+}
 Scene* MainMenu::createScene()
 {
 	auto scene = Scene::create();
@@ -21,18 +27,16 @@ bool MainMenu::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 originPos = Director::getInstance()->getVisibleOrigin();
-	//this->_localZOrder = 2;
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("titlemusic.mp3");
 	//the Start Button
-	auto startGame_button = Button::create("StartMenu_startbutton.png");
+/*	auto startGame_button = Button::create("StartMenu_startbutton.png");
 	startGame_button->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 + originPos.y));
 	startGame_button->setScale(0.5);
-	//here to put the onclick event
-	this->addChild(startGame_button);
+	this->addChild(startGame_button);	*/
 	auto startGame_button_mp = Button::create("StartMenu_startbutton_MP.png");
-	startGame_button_mp->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 - 120 + originPos.y));
-	startGame_button_mp->setScale(0.5);
-	//here to put the onclick event mp
+	startGame_button_mp->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 - 80 + originPos.y));
+	startGame_button_mp->setScale(0.8);
+	startGame_button_mp->addClickEventListener(Widget::ccWidgetClickCallback(MainMenu::switchSceneToSelect));
 	this->addChild(startGame_button_mp);
 	//the title logo
 	auto titleLogo = Sprite::create("StartMenu_titlelogo.png");
@@ -86,13 +90,13 @@ bool MainBG::init()
 		y = _event->getCursorY();
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_listener, this);
-	this->k_listener = EventListenerKeyboard::create();
+	k_listener = EventListenerKeyboard::create();
 	k_listener->onKeyPressed = [=](EventKeyboard::KeyCode keycode, Event* event)
 	{
 		_keycode = keycode;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(k_listener, this);
-	this->schedule(schedule_selector(MainBG::update), 0.1f);
+	this->schedule(schedule_selector(MainBG::update), 0.03333f);
 	return true;
 }
 
@@ -100,9 +104,10 @@ void MainBG::update(float dt)
 {
 	
 	std::string name = "HJ";
-	Balls* _yourball = dynamic_cast<Balls*>(this->getChildByName("HJ"));
-	_yourball->movement(name,x,y,this);
-	_yourball->swallow(this);
-	_yourball->division(x,y,_keycode,this,this->k_listener);
-	_yourball->updateRadius();
+	Balls* yourball = dynamic_cast<Balls*>(this->getChildByName("HJ"));
+	yourball->movement(name,x,y,this);
+	yourball->swallow(this);
+	yourball->division(x,y,_keycode,this,this->k_listener);
+	yourball->updateRadius();
+	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;
 }
