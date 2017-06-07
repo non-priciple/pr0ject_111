@@ -74,7 +74,7 @@ bool MainBG::init()
 	test3->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y + 300));
 	this->addChild(test3, 1);
 	Balls*test4 = Balls::createWithFileName("huaji.png");
-	test4->initStatus(7,0);
+	test4->initStatus(20,0);
 	test4->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y - 300));
 	this->addChild(test4, 1);
 	//
@@ -101,25 +101,24 @@ void MainBG::update(float dt)
 	
 	std::string name = "HJ";
 	Balls* yourball = dynamic_cast<Balls*>(this->getChildByName("HJ"));
-	yourball->movement(name,x,y,this);
+	
 	cocos2d::Vector<Node*> allballs;
 	allballs = this->getChildren();
 	for (auto target : allballs)
 	{
-		if (target->isVisible())
-		{
+		
 			Balls* target_b = dynamic_cast<Balls*>(target);
 			if (target_b != nullptr&&target_b->getID() != 0)
 			{
+				target_b->movement(x,y,this,1);
 				target_b->swallow(this);
+				if(target_b!=nullptr)
 				target_b->updateRadius();
 			}
-		}
+		
 	}
-
-
-
-	yourball->division(x,y,_keycode,this,this->k_listener);
+	yourball->division(x, y, _keycode, this, this->k_listener);
+	if (yourball != nullptr)
 	yourball->updateRadius();
 	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;
 }
