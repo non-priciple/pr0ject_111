@@ -2,6 +2,7 @@
 #include<cocos2d.h>
 #include<ui/CocosGUI.h>
 #include"BallSelectMenu.h"
+#include"BattleField.h"
 USING_NS_CC;
 cocos2d::Scene *BallSelectMenu::createScene()
 {
@@ -9,6 +10,11 @@ cocos2d::Scene *BallSelectMenu::createScene()
 	auto layer_ballSelectMenu = BallSelectMenu::create();
 	scene->addChild(layer_ballSelectMenu);
 	return scene;
+}
+void BallSelectMenu::switchToBattleField(int ballID)
+{
+	auto transition = TransitionPageTurn::create(1.0f, BattleField::createScene(ballID), false);
+	Director::getInstance()->replaceScene(transition);
 }
 void BallSelectMenu::selectC()
 {
@@ -39,15 +45,15 @@ void BallSelectMenu::selectX()
 }
 void BallSelectMenu::startWithC()
 {
-
+	switchToBattleField(1);
 }
 void BallSelectMenu::startWithH()
 {
-
+	switchToBattleField(3);
 }
 void BallSelectMenu::startWithX()
 {
-
+	switchToBattleField(2);
 }
 bool BallSelectMenu::init()
 {
@@ -94,14 +100,17 @@ bool BallSelectMenu::init()
 	this->addChild(selectedH,0,"selectedH");
 	this->addChild(selectedX,0,"selectedX");
 	auto buttonStartH = ui::Button::create("selectStartH.png");
+	buttonStartH->addClickEventListener(ui::Widget::ccWidgetClickCallback(CC_CALLBACK_0(BallSelectMenu::startWithH, this)));
 	buttonStartH->setPosition(Vec2(1000, 80));
 	buttonStartH->setScale(0.7);
 	buttonStartH->setVisible(false);
 	auto buttonStartX = ui::Button::create("selectStartX.png");
+	buttonStartX->addClickEventListener(ui::Widget::ccWidgetClickCallback(CC_CALLBACK_0(BallSelectMenu::startWithX, this)));
 	buttonStartX->setPosition(Vec2(1000, 80));
 	buttonStartX->setScale(0.7);
 	buttonStartX->setVisible(false);
 	auto buttonStartC = ui::Button::create("selectStartC.png");
+	buttonStartC->addClickEventListener(ui::Widget::ccWidgetClickCallback(CC_CALLBACK_0(BallSelectMenu::startWithC, this)));
 	buttonStartC->setPosition(Vec2(1000, 80));
 	buttonStartC->setScale(0.7);
 	buttonStartC->setVisible(false);

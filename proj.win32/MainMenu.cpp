@@ -81,7 +81,8 @@ bool MainBG::init()
 	test4->initStatus(7,0);
 	test4->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y - 300));
 	this->addChild(test4, 1);
-	//
+	
+
 	auto m_listener = EventListenerMouse::create();
 	m_listener->onMouseMove = [=](Event* event)
 	{

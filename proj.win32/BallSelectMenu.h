@@ -5,6 +5,7 @@ class BallSelectMenu :public cocos2d::Layer
 public:
 	static cocos2d::Scene * createScene();
 	virtual bool init();
+	void switchToBattleField(int ballID);
 	void selectX();
 	void selectH();
 	void selectC();

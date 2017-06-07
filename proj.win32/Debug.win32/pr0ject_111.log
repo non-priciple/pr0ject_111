@@ -1,13 +1,11 @@
-﻿  MainMenu.cpp
-e:\pr0ject_111\pr0ject_111\proj.win32\balls.h(83): warning C4305: “参数”: 从“double”到“float”截断
-e:\pr0ject_111\pr0ject_111\proj.win32\balls.h(106): warning C4996: 'cocos2d::ccpDistance': 被声明为已否决
-  e:\pr0ject_111\pr0ject_111\cocos2d\cocos\deprecated\ccdeprecated.h(272): note: 参见“cocos2d::ccpDistance”的声明
-e:\pr0ject_111\pr0ject_111\proj.win32\balls.h(134): warning C4996: 'cocos2d::ccpDistance': 被声明为已否决
-  e:\pr0ject_111\pr0ject_111\cocos2d\cocos\deprecated\ccdeprecated.h(272): note: 参见“cocos2d::ccpDistance”的声明
-e:\pr0ject_111\pr0ject_111\proj.win32\balls.h(160): warning C4996: 'cocos2d::ccpDistance': 被声明为已否决
-  e:\pr0ject_111\pr0ject_111\cocos2d\cocos\deprecated\ccdeprecated.h(272): note: 参见“cocos2d::ccpDistance”的声明
-e:\pr0ject_111\pr0ject_111\proj.win32\mainmenu.cpp(38): warning C4305: “参数”: 从“double”到“float”截断
-e:\pr0ject_111\pr0ject_111\proj.win32\mainmenu.cpp(44): warning C4305: “参数”: 从“double”到“float”截断
+﻿  BallSelectMenu.cpp
+  BattleField.cpp
+e:\pr0ject_111\pr0ject_111\proj.win32\ballselectmenu.cpp(71): warning C4305: “参数”: 从“double”到“float”截断
+e:\pr0ject_111\pr0ject_111\proj.win32\ballselectmenu.cpp(80): warning C4305: “参数”: 从“double”到“float”截断
+e:\pr0ject_111\pr0ject_111\proj.win32\ballselectmenu.cpp(89): warning C4305: “参数”: 从“double”到“float”截断
+e:\pr0ject_111\pr0ject_111\proj.win32\ballselectmenu.cpp(105): warning C4305: “参数”: 从“double”到“float”截断
+e:\pr0ject_111\pr0ject_111\proj.win32\ballselectmenu.cpp(110): warning C4305: “参数”: 从“double”到“float”截断
+e:\pr0ject_111\pr0ject_111\proj.win32\ballselectmenu.cpp(115): warning C4305: “参数”: 从“double”到“float”截断
   pr0ject_111.vcxproj -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\pr0ject_111.exe
   pr0ject_111.vcxproj -> E:\pr0ject_111\pr0ject_111\proj.win32\Debug.win32\pr0ject_111.pdb (Full PDB)
   复制了 0 个文件
