@@ -2,8 +2,10 @@
 #include<cocos2d.h>
 class BallSelectMenu :public cocos2d::Layer
 {
+	
 public:
-	static cocos2d::Scene * createScene();
+	bool _isMP;
+	static cocos2d::Scene * createScene(bool isMP);
 	virtual bool init();
 	void switchToBattleField(int ballID);
 	void selectX();
