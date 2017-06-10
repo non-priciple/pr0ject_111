@@ -5,9 +5,14 @@
 #include<ui/CocosGUI.h>
 USING_NS_CC;
 using namespace ui;
-void MainMenu::switchSceneToSelect(Ref *pSender)
+void MainMenu::switchSceneToSelectSP()
 {
-	auto transition = TransitionPageTurn::create(1.2f, BallSelectMenu::createScene(),false);
+	auto transition = TransitionPageTurn::create(1.2f, BallSelectMenu::createScene(0),false);
+	Director::getInstance()->replaceScene(transition);
+}
+void MainMenu::switchSceneToSelectMP()
+{
+	auto transition = TransitionPageTurn::create(1.2f, BallSelectMenu::createScene(1), false);
 	Director::getInstance()->replaceScene(transition);
 }
 Scene* MainMenu::createScene()
@@ -29,14 +34,15 @@ bool MainMenu::init()
 	Vec2 originPos = Director::getInstance()->getVisibleOrigin();
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("titlemusic.mp3");
 	//the Start Button
-/*	auto startGame_button = Button::create("StartMenu_startbutton.png");
+	auto startGame_button = Button::create("StartMenu_startbutton.png");
 	startGame_button->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 + originPos.y));
-	startGame_button->setScale(0.5);
-	this->addChild(startGame_button);	*/
+	startGame_button->setScale(0.6);
+	startGame_button->addClickEventListener(Widget::ccWidgetClickCallback(CC_CALLBACK_0(MainMenu::switchSceneToSelectSP,this)));
+	this->addChild(startGame_button);	
 	auto startGame_button_mp = Button::create("StartMenu_startbutton_MP.png");
-	startGame_button_mp->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 - 80 + originPos.y));
-	startGame_button_mp->setScale(0.8);
-	startGame_button_mp->addClickEventListener(Widget::ccWidgetClickCallback(MainMenu::switchSceneToSelect));
+	startGame_button_mp->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 - 110 + originPos.y));
+	startGame_button_mp->setScale(0.6);
+	startGame_button_mp->addClickEventListener(Widget::ccWidgetClickCallback(CC_CALLBACK_0(MainMenu::switchSceneToSelectMP,this)));
 	this->addChild(startGame_button_mp);
 	//the title logo
 	auto titleLogo = Sprite::create("StartMenu_titlelogo.png");
@@ -81,7 +87,8 @@ bool MainBG::init()
 	test4->initStatus(7,0);
 	test4->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y - 300));
 	this->addChild(test4, 1);
-	//
+	
+
 	auto m_listener = EventListenerMouse::create();
 	m_listener->onMouseMove = [=](Event* event)
 	{

@@ -24,6 +24,9 @@
     <ClCompile Include="BallSelectMenu.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="BattleField.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
