@@ -101,7 +101,6 @@ void MainBG::update(float dt)
 	
 	std::string name = "HJ";
 	Balls* yourball = dynamic_cast<Balls*>(this->getChildByName("HJ"));
-	
 	cocos2d::Vector<Node*> allballs;
 	allballs = this->getChildren();
 	for (auto target : allballs)
@@ -114,10 +113,11 @@ void MainBG::update(float dt)
 				target_b->swallow(this);
 				if(target_b!=nullptr)
 				target_b->updateRadius();
+				if(target_b!=nullptr)
+				target_b->division(x, y, _keycode, this, this->k_listener);
 			}
-		
 	}
-	yourball->division(x, y, _keycode, this, this->k_listener);
+	
 	if (yourball != nullptr)
 	yourball->updateRadius();
 	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;

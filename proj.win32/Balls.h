@@ -1,6 +1,6 @@
 //This is the character
 //default designed size is  480*480 p          
-//default designed radius=339 p                //set at 260 provides better user experience
+//default designed radius=339 p                
 #include <cocos2d.h>
 #include<math.h>
 class Balls : public cocos2d::Sprite
@@ -8,7 +8,7 @@ class Balls : public cocos2d::Sprite
 private:
 	unsigned int _level;
 	int _radius;
-	int _identity;                                                     //sync with the id of Character;1 for Player,0 for computer
+	int _identity;                                                     //sync with the id of Character;
 public:
 	//skill to be done
 	static Balls* createWithFileName(const std::string & filename)
@@ -71,9 +71,9 @@ public:
 	{
 		return sqrt(this->_level*1.5 / 10);
 	}
-	void division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield, cocos2d::EventListenerKeyboard* listener)//unfinished;
+	void division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield, cocos2d::EventListenerKeyboard* listener)
 	{
-		if (_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&this->_level > 8)
+		if (_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&this->_level > 4&&this!=nullptr)
 		{
 			this->_level = this->_level / 2;
 			if (this != nullptr)
@@ -106,8 +106,8 @@ public:
 					this->stopAllActions();
 					float _x = this->getPositionX() - the_target->getPositionX();
 					float _y = this->getPositionY() - the_target->getPositionY();
-					auto moveby = cocos2d::MoveBy::create(0.5, cocos2d::Vec2(_x, _y));
-					this->runAction(moveby);
+					auto moveBy = cocos2d::MoveBy::create(0.5, cocos2d::Vec2(_x, _y));
+					this->runAction(moveBy);
 				}
 		     }
 		}
