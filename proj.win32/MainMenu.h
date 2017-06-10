@@ -17,7 +17,8 @@ class MainMenu :public cocos2d::Layer
 {
 public:
 	static cocos2d::Scene* createScene();
-	static void switchSceneToSelect(Ref *pSender);
+	void switchSceneToSelectSP();
+	void switchSceneToSelectMP();
 	virtual bool init();
 	CREATE_FUNC(MainMenu);
 };

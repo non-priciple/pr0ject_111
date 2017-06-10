@@ -14,6 +14,7 @@ Scene * BattleField::createScene(int ballID)
 }
 void BattleField::update(float del)
 {
+	setCameraFollow();
 
 }
 bool Combat::init()
@@ -23,6 +24,10 @@ bool Combat::init()
 		return false;
 	}
 	return true;
+}
+void BattleField::setCameraFollow()
+{
+
 }
 bool BattleField::init()
 {
@@ -36,5 +41,6 @@ bool BattleField::init()
 	this->addChild(_BG);
 	_BG->setAnchorPoint(Vec2(0.5, 0.5));
 	_BG->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
+	this->schedule(schedule_selector(BattleField::update), 0.0333f);
 	return true;
 }
