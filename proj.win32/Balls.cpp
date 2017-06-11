@@ -114,6 +114,7 @@ void Balls::movement(float x, float y, cocos2d::Layer *_Battlefield, int player_
 	float y1 = this->getPositionY() + (y - this->getPositionY()) *  6/ distance;
 	this->setPosition(x1, y1);
 }
+extern int count;
 void Balls::swallow(cocos2d::Layer *_Battlefield)
 {
 	cocos2d::Vector<Node*> _allballs;
@@ -130,10 +131,12 @@ void Balls::swallow(cocos2d::Layer *_Battlefield)
 				{
 					_Battlefield->removeChild(target_b);
 					this->addLevel(target_b->_level);
+					if (target_b->getID() == 0)count -= 1;
 				}
 				else if (this->_level < target_b->_level)
 				{
 					_Battlefield->removeChild(this);
+					if (this->getID() == 0)count -= 1;
 				}
 			}
 		}
