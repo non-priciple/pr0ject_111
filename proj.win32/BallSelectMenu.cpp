@@ -1,7 +1,6 @@
 //This is the menu where you select your character
-#include<cocos2d.h>
-#include<ui/CocosGUI.h>
 #include"BallSelectMenu.h"
+#include"MainMenu.h"
 #include"BattleField.h"
 USING_NS_CC;
 cocos2d::Scene *BallSelectMenu::createScene(bool isMP)
@@ -15,6 +14,11 @@ cocos2d::Scene *BallSelectMenu::createScene(bool isMP)
 void BallSelectMenu::switchToBattleField(int ballID)
 {
 	auto transition = TransitionPageTurn::create(1.0f, BattleField::createScene(ballID), false);
+	Director::getInstance()->replaceScene(transition);
+}
+void BallSelectMenu::backToMainMenu()
+{
+	auto transition = TransitionPageTurn::create(0.8f, MainMenu::createScene(), true);
 	Director::getInstance()->replaceScene(transition);
 }
 void BallSelectMenu::selectC()
@@ -118,5 +122,10 @@ bool BallSelectMenu::init()
 	this->addChild(buttonStartC, 0, "startC");
 	this->addChild(buttonStartH, 0, "startH");
 	this->addChild(buttonStartX, 0, "startX");
+	auto buttonBack = ui::Button::create("back.png");
+	buttonBack->setPosition(Vec2(600, 60));
+	buttonBack->setScale(0.66f);
+	buttonBack->addClickEventListener(ui::Widget::ccWidgetClickCallback(CC_CALLBACK_0(BallSelectMenu::backToMainMenu, this)));
+	this->addChild(buttonBack);
 	return true;
 }

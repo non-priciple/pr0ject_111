@@ -1,6 +1,5 @@
 // This is the main menu
 #include<cocos2d.h>
-#include<SimpleAudioEngine.h>
 class MainBG :public cocos2d::Layer
 {
 public:
