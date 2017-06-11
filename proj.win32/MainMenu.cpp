@@ -1,8 +1,9 @@
 //This is the main menu
 #include "MainMenu.h"
-#include "Balls.h"
-#include "BallSelectMenu.h"
+#include"BallSelectMenu.h"
 #include<ui/CocosGUI.h>
+#include<SimpleAudioEngine.h>
+#include"Balls.h"
 USING_NS_CC;
 using namespace ui;
 void MainMenu::switchSceneToSelectSP()
@@ -49,7 +50,10 @@ bool MainMenu::init()
 	titleLogo->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 1.4 + originPos.y));
 	titleLogo->setScale(0.7);
 	this->addChild(titleLogo);
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("titlemusic.mp3", true);
+	if (!CocosDenshion::SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying())
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("titlemusic.mp3", true);
+	}
 	return true;
 }
 

@@ -1,5 +1,6 @@
 //This is the battlefield where the main game runs
 #include "BattleField.h"
+#include "MainMenu.h"
 USING_NS_CC;
 Scene * BattleField::createScene(int ballID)
 {
@@ -7,14 +8,24 @@ Scene * BattleField::createScene(int ballID)
 	auto layerBattleField = BattleField::create();
 	layerBattleField->_me = ballID;
 	auto layerBC = Combat::create();
-	scene->addChild(layerBattleField);
+	scene->addChild(layerBattleField,1);
+	auto layerESC = ESCMenu::create();
 	layerBattleField->_BC = layerBC;
+	layerBattleField->_ESC = layerESC;
 	layerBattleField->addChild(layerBC);
+	scene->addChild(layerESC,2);
 	return scene;
+}
+void BattleField::setCameraFollow(float del)
+{
+	float x2y2 = sqrt((x - 640)*(x - 640) + (y - 360)*(y - 360));
+	float delX = 160*(x - 640)/x2y2*del;
+	float delY = 160*(y - 360)/x2y2*del;
+	this->setPosition(this->getPosition() - Vec2(delX, delY));
 }
 void BattleField::update(float del)
 {
-	setCameraFollow();
+	setCameraFollow(del);
 
 }
 bool Combat::init()
@@ -25,9 +36,36 @@ bool Combat::init()
 	}
 	return true;
 }
-void BattleField::setCameraFollow()
+void ESCMenu::quitToMainMenu()
 {
-
+	auto transition = TransitionPageTurn::create(0.8f, MainMenu::createScene(), true);
+	Director::getInstance()->replaceScene(transition);
+}
+void ESCMenu::resumeToGame()
+{
+	this->setVisible(false);
+}
+bool ESCMenu::init()              //The menu shown when pressing ESC
+{
+	if (!Layer::init())
+	{
+		return false;
+	}
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 originPos = Director::getInstance()->getVisibleOrigin();
+	auto coverImg = Sprite::create("esc.png");
+	coverImg->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
+	this->addChild(coverImg,0);
+	auto buttonQuit = ui::Button::create("quit.png");
+	buttonQuit->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 370, visibleSize.height / 2 + originPos.y + 50));
+	buttonQuit->addClickEventListener(ui::Widget::ccWidgetClickCallback(CC_CALLBACK_0(ESCMenu::quitToMainMenu, this)));
+	auto buttonResume = ui::Button::create("resume.png");
+	buttonResume->setPosition(Vec2(visibleSize.width / 2 + originPos.x + 360, visibleSize.height / 2 + originPos.y - 100));
+	buttonResume->addClickEventListener(ui::Widget::ccWidgetClickCallback(CC_CALLBACK_0(ESCMenu::resumeToGame, this)));
+	this->addChild(buttonQuit);
+	this->addChild(buttonResume);
+	this->setVisible(false);
+	return true;
 }
 bool BattleField::init()
 {
@@ -38,9 +76,30 @@ bool BattleField::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 originPos = Director::getInstance()->getVisibleOrigin();
 	_BG = TMXTiledMap::create("BG.tmx");
-	this->addChild(_BG);
+	this->addChild(_BG,-1);
 	_BG->setAnchorPoint(Vec2(0.5, 0.5));
 	_BG->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
-	this->schedule(schedule_selector(BattleField::update), 0.0333f);
+	this->scheduleUpdate();
+	auto m_listener = EventListenerMouse::create();
+	m_listener->onMouseMove = [=](Event * event)
+	{
+		EventMouse* _event = (EventMouse *)event;
+		x = _event->getCursorX();
+		y = _event->getCursorY();
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_listener, this);
+	k_listener = EventListenerKeyboard::create();
+	k_listener->onKeyPressed = [=](EventKeyboard::KeyCode keycode, Event* event)
+	{
+		if (keycode == EventKeyboard::KeyCode::KEY_ESCAPE)
+		{
+			_ESC->setVisible(true);
+		}
+		else if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
+		{
+			_keycode = keycode;
+		}
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(k_listener, this);
 	return true;
 }

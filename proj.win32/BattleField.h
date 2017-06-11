@@ -1,6 +1,16 @@
 //This is the battlefield where the main game runs
 #include<cocos2d.h>
 #include<SimpleAudioEngine.h>
+#include<ui\CocosGUI.h>
+#include<math.h>
+class ESCMenu :public cocos2d::Layer
+{
+public:
+	virtual bool init();
+	void quitToMainMenu();
+	void resumeToGame();
+	CREATE_FUNC(ESCMenu);
+};
 class Combat :public cocos2d::Layer                   //class Combat is where to put all the balls and food
 {
 public:
@@ -19,9 +29,10 @@ public:
 	int _me;
 	cocos2d::TMXTiledMap * _BG;
 	Combat * _BC;
+	ESCMenu * _ESC;
 	static cocos2d::Scene  *createScene(int ballID);
 	virtual bool init();
-	void setCameraFollow();
+	void setCameraFollow(float del);
 	CREATE_FUNC(BattleField);
 };
 /*class BackGround :public cocos2d::Layer
