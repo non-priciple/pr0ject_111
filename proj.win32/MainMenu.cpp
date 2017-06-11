@@ -1,9 +1,21 @@
 //This is the main menu
 #include "MainMenu.h"
-#include"Balls.h"
+#include"BallSelectMenu.h"
 #include<ui/CocosGUI.h>
+#include<SimpleAudioEngine.h>
+#include"Balls.h"
 USING_NS_CC;
 using namespace ui;
+void MainMenu::switchSceneToSelectSP()
+{
+	auto transition = TransitionPageTurn::create(1.2f, BallSelectMenu::createScene(0),false);
+	Director::getInstance()->replaceScene(transition);
+}
+void MainMenu::switchSceneToSelectMP()
+{
+	auto transition = TransitionPageTurn::create(1.2f, BallSelectMenu::createScene(1), false);
+	Director::getInstance()->replaceScene(transition);
+}
 Scene* MainMenu::createScene()
 {
 	auto scene = Scene::create();
@@ -21,27 +33,31 @@ bool MainMenu::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 originPos = Director::getInstance()->getVisibleOrigin();
-	//this->_localZOrder = 2;
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("titlemusic.mp3");
 	//the Start Button
 	auto startGame_button = Button::create("StartMenu_startbutton.png");
 	startGame_button->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 + originPos.y));
-	startGame_button->setScale(0.5);
-	//here to put the onclick event
-	this->addChild(startGame_button);
+	startGame_button->setScale(0.6);
+	startGame_button->addClickEventListener(Widget::ccWidgetClickCallback(CC_CALLBACK_0(MainMenu::switchSceneToSelectSP,this)));
+	this->addChild(startGame_button);	
 	auto startGame_button_mp = Button::create("StartMenu_startbutton_MP.png");
-	startGame_button_mp->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 - 120 + originPos.y));
-	startGame_button_mp->setScale(0.5);
-	//here to put the onclick event mp
+	startGame_button_mp->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 - 110 + originPos.y));
+	startGame_button_mp->setScale(0.6);
+	startGame_button_mp->addClickEventListener(Widget::ccWidgetClickCallback(CC_CALLBACK_0(MainMenu::switchSceneToSelectMP,this)));
 	this->addChild(startGame_button_mp);
 	//the title logo
 	auto titleLogo = Sprite::create("StartMenu_titlelogo.png");
 	titleLogo->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 1.4 + originPos.y));
 	titleLogo->setScale(0.7);
 	this->addChild(titleLogo);
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("titlemusic.mp3", true);
+	if (!CocosDenshion::SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying())
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("titlemusic.mp3", true);
+	}
 	return true;
 }
+
+
 bool MainBG::init()
 {
 	if (!Layer::init())
@@ -58,10 +74,120 @@ bool MainBG::init()
 	huaJi->initStatus(1000,1);
 	huaJi->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(huaJi, 1, "HJ");
-
-
+	num = 0;
+	int count = 0;
+	while (count<300)
+	{
+		int xPos = CCRANDOM_0_1() * 2000;
+		int yPos = CCRANDOM_0_1() * 2000;
+		float food_colour;
+		food_colour = CCRANDOM_0_1();
+		if (food_colour < 0.17) {
+			auto food = Balls::createWithFileName("food_r.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			 
+			this->addChild(food);
+			count += 1;
+		}
+		else if (food_colour < 0.34) {
+			auto food = Balls::createWithFileName("food_y.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			 
+			this->addChild(food);
+			count += 1;
+		}
+		else if (food_colour < 0.5) {
+			auto food = Balls::createWithFileName("food_b.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			 
+			this->addChild(food);
+			count += 1;
+		}
+		else if (food_colour < 0.67) {
+			auto food = Balls::createWithFileName("food_g.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			 
+			this->addChild(food);
+			count += 1;
+		}
+		else if (food_colour < 0.84) {
+			auto food = Balls::createWithFileName("food_p.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			 
+			this->addChild(food);
+			count += 1;
+		}
+		else {
+			auto food = Balls::createWithFileName("food_s.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			 
+			this->addChild(food);
+			count += 1;
+		}
+	}
+	while (count < 3000)
+	{
+		int xPos = CCRANDOM_0_1() * 2000;
+		int yPos = CCRANDOM_0_1() * 2000;
+		float food_colour;
+		food_colour = CCRANDOM_0_1();
+		if (food_colour < 0.17) {
+			auto food = Balls::createWithFileName("food_r.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			food->setVisible(false);
+			this->addChild(food);
+			count += 1;
+		}
+		else if (food_colour < 0.34) {
+			auto food = Balls::createWithFileName("food_y.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			food->setVisible(false);
+			this->addChild(food);
+			count += 1;
+		}
+		else if (food_colour < 0.5) {
+			auto food = Balls::createWithFileName("food_b.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin(); 
+			food->setVisible(false);
+			this->addChild(food);
+			count += 1;
+		}
+		else if (food_colour < 0.67) {
+			auto food = Balls::createWithFileName("food_g.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();	 
+			food->setVisible(false);
+			this->addChild(food);
+			count += 1;
+		}
+		else if (food_colour < 0.84) {
+			auto food = Balls::createWithFileName("food_p.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			food->setVisible(false);
+			this->addChild(food);
+			count += 1;
+		}
+		else {
+			auto food = Balls::createWithFileName("food_s.png");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusMin();
+			food->setVisible(false);
+			this->addChild(food);
+			count += 1;
+		}
+	}
 	// test balls
-	Balls*test1 = Balls::createWithFileName("huaji.png");
+/*	Balls*test1 = Balls::createWithFileName("huaji.png");
 	test1->initStatus(300,0);
 	test1->setPosition(Vec2(visibleSize.width / 2 + originPos.x + 300, visibleSize.height / 2 + originPos.y + 300));
 	this->addChild(test1, 1);
@@ -76,8 +202,7 @@ bool MainBG::init()
 	Balls*test4 = Balls::createWithFileName("huaji.png");
 	test4->initStatus(1000,0);
 	test4->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y - 300));
-	this->addChild(test4, 1);
-	//
+	this->addChild(test4, 1);*/
 	auto m_listener = EventListenerMouse::create();
 	m_listener->onMouseMove = [=](Event* event)
 	{
@@ -86,39 +211,55 @@ bool MainBG::init()
 		y = _event->getCursorY();
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_listener, this);
-	this->k_listener = EventListenerKeyboard::create();
+	k_listener = EventListenerKeyboard::create();
 	k_listener->onKeyPressed = [=](EventKeyboard::KeyCode keycode, Event* event)
 	{
 		_keycode = keycode;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(k_listener, this);
-	this->schedule(schedule_selector(MainBG::update), 0.0333f);
+	this->schedule(schedule_selector(MainBG::update), 0.03333f);
 	return true;
 }
 
 void MainBG::update(float dt)
 {
-	
-	std::string name = "HJ";
-	Balls* yourball = dynamic_cast<Balls*>(this->getChildByName("HJ"));
 	cocos2d::Vector<Node*> allballs;
+	num += 1;
+	if (num >= 30) 
+	{
+		allballs = this->getChildren();
+		for (auto _target : allballs) 
+		{
+			if (!_target->isVisible()) 
+			{
+				Balls* _target_b = dynamic_cast<Balls*>(_target);
+				if (_target_b != nullptr&&0==_target_b->getID()) 
+				{
+					float whether_set = CCRANDOM_0_1();
+					if (whether_set<0.1)_target_b->setVisible(true);
+				}
+			}
+		}
+	num = 0;
+	}
+
 	allballs = this->getChildren();
 	for (auto target : allballs)
 	{
-		
-			Balls* target_b = dynamic_cast<Balls*>(target);
-			if (target_b != nullptr&&target_b->getID() != 0)
-			{
-				target_b->movement(x,y,this,1);
-				target_b->swallow(this);
-				if(target_b!=nullptr)
-				target_b->updateRadius();
-				if(target_b!=nullptr)
-				target_b->division(x, y, _keycode, this, this->k_listener);
-			}
+		if (target->getPositionX() > 1280 || target->getPositionX() < 0 || target->getPositionY() > 720 || target->getPositionY() < 0)
+		{
+			target->setPosition(Vec2(640, 360));
+		}
+		Balls* target_b = dynamic_cast<Balls*>(target);
+		if (target_b != nullptr&&target_b->getID() != 0)
+		{
+			target_b->movement(x,y,this,1);
+			target_b->swallow(this);
+			if(target_b!=nullptr)
+			target_b->updateRadius();
+			if(target_b!=nullptr)
+			target_b->division(x, y, _keycode, this, this->k_listener);
+		}
 	}
-	
-	if (yourball != nullptr)
-	yourball->updateRadius();
-	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;
+			_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;	
 }

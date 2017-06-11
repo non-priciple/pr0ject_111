@@ -24,8 +24,11 @@
     <ClCompile Include="BallSelectMenu.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Balls.cpp">
+    <ClCompile Include="BattleField.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+     <ClCompile Include="Balls.cpp">
+       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +48,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="BallSelectMenu.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleField.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="foodcreator.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
