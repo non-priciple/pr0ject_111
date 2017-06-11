@@ -1,6 +1,7 @@
 //This is the battlefield where the main game runs
 #include "BattleField.h"
 #include "MainMenu.h"
+#include "Balls.h"
 USING_NS_CC;
 Scene * BattleField::createScene(int ballID)
 {
@@ -12,7 +13,7 @@ Scene * BattleField::createScene(int ballID)
 	auto layerESC = ESCMenu::create();
 	layerBattleField->_BC = layerBC;
 	layerBattleField->_ESC = layerESC;
-	layerBattleField->addChild(layerBC);
+	layerBattleField->addChild(layerBC,2);
 	scene->addChild(layerESC,2);
 	return scene;
 }
@@ -25,7 +26,29 @@ void BattleField::setCameraFollow(float del)
 }
 void BattleField::update(float del)
 {
-	setCameraFollow(del);
+//	setCameraFollow(del);
+	cocos2d::Vector<Node*> allballs;
+	allballs = this->_BC->getChildren();
+	for (auto target : allballs)
+	{
+
+		Balls* target_b = dynamic_cast<Balls*>(target);
+		if (target_b != nullptr&&target_b->getID() != 0)
+		{
+			target_b->movement(x, y, this->_BC, 1);
+			target_b->swallow(this->_BC);
+			if (target_b != nullptr&&_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE)
+			{
+				target_b->division(x, y, _keycode, this->_BC, this->k_listener);
+				//this->unscheduleUpdate();
+			}
+			target_b->updateRadius();
+		}
+	}
+	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;
+
+//	if (yourball != nullptr)
+//		yourball->updateRadius();
 
 }
 bool Combat::init()
@@ -34,6 +57,11 @@ bool Combat::init()
 	{
 		return false;
 	}
+	
+	Balls* huaJi = Balls::createWithFileName("huaJi.png");
+	huaJi->initStatus(4000, 1);
+	huaJi->setPosition(Vec2(640,360));
+	this->addChild(huaJi, 1, "HJ");
 	return true;
 }
 void ESCMenu::quitToMainMenu()

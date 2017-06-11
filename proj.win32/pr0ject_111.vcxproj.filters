@@ -27,6 +27,9 @@
     <ClCompile Include="BattleField.cpp">
       <Filter>src</Filter>
     </ClCompile>
+     <ClCompile Include="Balls.cpp">
+       <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
