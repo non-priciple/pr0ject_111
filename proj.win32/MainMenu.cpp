@@ -55,26 +55,26 @@ bool MainBG::init()
 	backGround->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(backGround);
 	Balls* huaJi = Balls::createWithFileName("huaJi.png");
-	huaJi->initStatus(10,1);
+	huaJi->initStatus(1000,1);
 	huaJi->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(huaJi, 1, "HJ");
 
 
 	// test balls
 	Balls*test1 = Balls::createWithFileName("huaji.png");
-	test1->initStatus(3,0);
+	test1->initStatus(300,0);
 	test1->setPosition(Vec2(visibleSize.width / 2 + originPos.x + 300, visibleSize.height / 2 + originPos.y + 300));
 	this->addChild(test1, 1);
 	Balls*test2 = Balls::createWithFileName("huaji.png");
-	test2->initStatus(1,0);
+	test2->initStatus(100,0);
 	test2->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y));
 	this->addChild(test2, 1);
 	Balls*test3 = Balls::createWithFileName("huaji.png");
-	test3->initStatus(5,0);
+	test3->initStatus(500,0);
 	test3->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y + 300));
 	this->addChild(test3, 1);
 	Balls*test4 = Balls::createWithFileName("huaji.png");
-	test4->initStatus(20,0);
+	test4->initStatus(1000,0);
 	test4->setPosition(Vec2(visibleSize.width / 2 + originPos.x - 300, visibleSize.height / 2 + originPos.y - 300));
 	this->addChild(test4, 1);
 	//
@@ -92,7 +92,7 @@ bool MainBG::init()
 		_keycode = keycode;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(k_listener, this);
-	this->schedule(schedule_selector(MainBG::update), 0.1f);
+	this->schedule(schedule_selector(MainBG::update), 0.0333f);
 	return true;
 }
 
