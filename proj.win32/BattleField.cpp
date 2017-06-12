@@ -1,4 +1,7 @@
 //This is the battlefield where the main game runs
+//BattleField coordinate system:
+// x: -6400 to 6400
+// y: -6400 to 6400
 #include "BattleField.h"
 #include "MainMenu.h"
 #include "Balls.h"
@@ -17,38 +20,54 @@ Scene * BattleField::createScene(int ballID)
 	scene->addChild(layerESC,2);
 	return scene;
 }
-void BattleField::setCameraFollow(float del)
+void BattleField::setCameraFollow(float nodeX,float nodeY)
 {
-	float x2y2 = sqrt((x - 640)*(x - 640) + (y - 360)*(y - 360));
-	float delX = 160*(x - 640)/x2y2*del;
-	float delY = 160*(y - 360)/x2y2*del;
-	this->setPosition(this->getPosition() - Vec2(delX, delY));
+	Vec2 delVec = Vec2(640, 360) - this->getPosition() - Vec2(nodeX, nodeY);   //CAUTION!:coordinate system change
+	this->setPosition(this->getPosition() + delVec);
 }
 void BattleField::update(float del)
 {
-//	setCameraFollow(del);
 	cocos2d::Vector<Node*> allballs;
 	allballs = this->_BC->getChildren();
+	float nowX = x - this->getPositionX();
+	float nowY = y - this->getPositionY();
+	float nodeSumX=0;
+	float nodeSumY=0;
+	int nodeCount=0;
 	for (auto target : allballs)
 	{
 
 		Balls* target_b = dynamic_cast<Balls*>(target);
 		if (target_b != nullptr&&target_b->getID() != 0)
 		{
-			target_b->movement(x, y, this->_BC, 1);
+			target_b->movement(nowX, nowY, this->_BC, 1);
 			target_b->swallow(this->_BC);
 			if (target_b != nullptr&&_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE)
 			{
-				target_b->division(x, y, _keycode, this->_BC, this->k_listener);
-				//this->unscheduleUpdate();
+				target_b->division(nowX, nowY, _keycode, this->_BC);
+			//	this->unscheduleUpdate();
+			//	for debug using
+			}
+			if (target_b->getID() == 1)
+			{
+				nodeSumX += target_b->getPositionX();
+				nodeSumY += target_b->getPositionY();
+				nodeCount++;
 			}
 			target_b->updateRadius();
 		}
 	}
-	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;
+	if (nodeCount!=0)
+	{
+		setCameraFollow( nodeSumX / nodeCount, nodeSumY / nodeCount);
+		//this->unscheduleUpdate();
+		//for debug using¡ü
+	}
+	else
+	{
 
-//	if (yourball != nullptr)
-//		yourball->updateRadius();
+	}
+	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;
 
 }
 bool Combat::init()
@@ -103,10 +122,14 @@ bool BattleField::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 originPos = Director::getInstance()->getVisibleOrigin();
+	x = visibleSize.width / 2 + originPos.x;
+	y = visibleSize.height / 2 + originPos.y;
 	_BG = TMXTiledMap::create("BG.tmx");
 	this->addChild(_BG,-1);
-	_BG->setAnchorPoint(Vec2(0.5, 0.5));
+	_BG->setAnchorPoint(Vec2(0.5,0.5));
 	_BG->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
+	//this->schedule(schedule_selector(BattleField::update), 0.02f);
+	//for debug using¡ü
 	this->scheduleUpdate();
 	auto m_listener = EventListenerMouse::create();
 	m_listener->onMouseMove = [=](Event * event)

@@ -44,7 +44,7 @@ bool MainMenu::init()
 	startGame_button_mp->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 - 110 + originPos.y));
 	startGame_button_mp->setScale(0.6);
 	startGame_button_mp->addClickEventListener(Widget::ccWidgetClickCallback(CC_CALLBACK_0(MainMenu::switchSceneToSelectMP,this)));
-	this->addChild(startGame_button_mp);
+	//this->addChild(startGame_button_mp);
 	//the title logo
 	auto titleLogo = Sprite::create("StartMenu_titlelogo.png");
 	titleLogo->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 1.4 + originPos.y));
@@ -217,7 +217,8 @@ bool MainBG::init()
 		_keycode = keycode;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(k_listener, this);
-	this->schedule(schedule_selector(MainBG::update), 0.03333f);
+//	this->schedule(schedule_selector(MainBG::update), 0.03333f);
+	this->scheduleUpdate();
 	return true;
 }
 
@@ -258,7 +259,7 @@ void MainBG::update(float dt)
 			if(target_b!=nullptr)
 			target_b->updateRadius();
 			if(target_b!=nullptr)
-			target_b->division(x, y, _keycode, this, this->k_listener);
+			target_b->division(x, y, _keycode, this);
 		}
 	}
 			_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;	

@@ -32,7 +32,7 @@ public:
 	ESCMenu * _ESC;
 	static cocos2d::Scene  *createScene(int ballID);
 	virtual bool init();
-	void setCameraFollow(float del);
+	void setCameraFollow(float nodeX,float nodeY);
 	CREATE_FUNC(BattleField);
 };
 /*class BackGround :public cocos2d::Layer

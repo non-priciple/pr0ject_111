@@ -22,7 +22,7 @@ public:
 	void updateRadius();                                    //update the radius and size when level changes
 	void addLevel(const int delLevel);                           //after eating other balls,call this
 	float speed();
-	void division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield, cocos2d::EventListenerKeyboard* listener);
+	void division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield);
 	void movement(float x, float y, cocos2d::Layer *_Battlefield, int player_id);
 	void swallow(cocos2d::Layer *_Battlefield);
 };

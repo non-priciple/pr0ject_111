@@ -74,7 +74,7 @@ float Balls::speed()
 	return 100000/10000+this->_level;
 }
 
-void Balls::division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield, cocos2d::EventListenerKeyboard* listener)
+void Balls::division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield)
 {
 	if (_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&this->_level > 400 && this != nullptr)
 	{
@@ -84,7 +84,7 @@ void Balls::division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode
 		Balls* substitute = this->createWithBallsFrame(this->getSpriteFrame());
 		substitute->initStatus(this->_level, this->_identity);
 		substitute->setPosition(this->getPosition());
-		auto moveTo = cocos2d::MoveTo::create(0.5f, cocos2d::Vec2(x, y));
+		auto moveTo = cocos2d::MoveTo::create(0.3f, cocos2d::Vec2(x, y));
 		substitute->runAction(moveTo);
 		_Battelfield->addChild(substitute, 1);
 	}
@@ -110,8 +110,8 @@ void Balls::movement(float x, float y, cocos2d::Layer *_Battlefield, int player_
 	}
 	float distance = cocos2d::ccpDistance(this->getPosition(),cocos2d::Vec2(x,y));
 	if (distance < 0.01f)distance = 0.01f;
-	float x1 = this->getPositionX() + (x - this->getPositionX()) *  6/ distance;
-	float y1 = this->getPositionY() + (y - this->getPositionY()) *  6/ distance;
+	float x1 = this->getPositionX() + (x - this->getPositionX()) *  3/ distance;
+	float y1 = this->getPositionY() + (y - this->getPositionY()) *  3/ distance;
 	this->setPosition(x1, y1);
 }
 void Balls::swallow(cocos2d::Layer *_Battlefield)
