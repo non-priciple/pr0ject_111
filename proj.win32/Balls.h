@@ -10,6 +10,7 @@ private:
 	int _radius;
 	int _identity;                                                     //sync with the id of Character;
 public:
+	bool isfood;
 	//skill to be done
 	static Balls* createWithFileName(const std::string & filename);
 	static Balls* createWithBallsFrame(cocos2d::SpriteFrame *spriteFrame);
