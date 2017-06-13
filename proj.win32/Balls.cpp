@@ -64,6 +64,10 @@ void Balls::updateRadius()                                          //update the
 	this->setScale(sqrt(_level/10)/ 10);
 	_radius = sqrt(_level/10) * 260 / 10;
 }
+void Balls::LevelLimit()
+{
+	if (this->_level > 1000)this->_level = 1000;
+}
 void Balls:: addLevel(const int delLevel)                              //after eating other balls,call this
 {
 	_level += delLevel;

@@ -246,6 +246,7 @@ void MainBG::update(float dt)
 	allballs = this->getChildren();
 	for (auto target : allballs)
 	{
+		
 		if (target->getPositionX() > 1280 || target->getPositionX() < 0 || target->getPositionY() > 720 || target->getPositionY() < 0)
 		{
 			target->setPosition(Vec2(640, 360));
@@ -253,6 +254,7 @@ void MainBG::update(float dt)
 		Balls* target_b = dynamic_cast<Balls*>(target);
 		if (target_b != nullptr&&target_b->getID() != 0)
 		{
+			target_b->LevelLimit();
 			target_b->movement(x,y,this,1);
 			target_b->swallow(this);
 			if(target_b!=nullptr)
