@@ -6,7 +6,7 @@
 class Balls : public cocos2d::Sprite
 {
 private:
-	unsigned int _level;
+	float _level;
 	int _radius;
 	int _identity;                                                     //sync with the id of Character;
 public:

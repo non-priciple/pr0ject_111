@@ -4,6 +4,7 @@
 #include <cocos2d.h>
 #include"Balls.h"
 #include<math.h>
+#include"BattleField.h"
 
 Balls* Balls::createWithFileName(const std::string & filename)
 {
@@ -61,8 +62,9 @@ unsigned int Balls::getLevel()
 }
 void Balls::updateRadius()                                          //update the radius and size when level changes
 {
-	this->setScale(sqrt(_level/10) / 10);
-	_radius = sqrt(_level/10) * 234 / 10;
+	double sizeLevel = _level / 10;
+	this->setScale(sqrt(sizeLevel) / 10);
+	_radius = sqrt(sizeLevel) * 234 / 10;
 }
 void Balls::LevelLimit()
 {
@@ -129,15 +131,16 @@ void Balls::movement(float x, float y, cocos2d::Layer *_Battlefield, int player_
 		this->setPosition(x1, y1);
 	}
 }
-extern int count;
 void Balls::swallow(cocos2d::Layer *_Battlefield)
 {
+	float thisX = this->getPositionX();
+	float thisY = this->getPositionY();
 	cocos2d::Vector<Node*> _allballs;
 	_allballs = _Battlefield->getChildren();
 	for (auto _target : _allballs)
 	{
 		Balls* target_b = dynamic_cast<Balls*>(_target);
-		if (target_b != nullptr&&target_b->_identity != this->_identity)
+		if (target_b != nullptr&&target_b->_identity != this->_identity&& abs(target_b->getPositionX()-thisX)<234 && abs(target_b->getPositionY() - thisY)<234)
 		{
 			float _distance = cocos2d::ccpDistance(target_b->getPosition(), this->getPosition());
 			if (_distance <= this->_radius + target_b->_radius)
@@ -146,12 +149,12 @@ void Balls::swallow(cocos2d::Layer *_Battlefield)
 				{
 					_Battlefield->removeChild(target_b);
 					this->addLevel(target_b->_level);
-					if (target_b->getID() == 0)count -= 1;
+					if (target_b->getID() == 0)dynamic_cast<Combat*>(_Battlefield)->foodCount--;
 				}
 				else if (this->_level < target_b->_level)
 				{
 					_Battlefield->removeChild(this);
-					if (this->getID() == 0)count -= 1;
+					if (this->getID() == 0)dynamic_cast<Combat*>(_Battlefield)->foodCount--;
 				}
 			}
 		}

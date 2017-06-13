@@ -163,7 +163,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="Character.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="foodcreator.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d\cocos\2d\libcocos2d.vcxproj">
