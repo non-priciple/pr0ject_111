@@ -11,6 +11,15 @@ public:
 	void resumeToGame();
 	CREATE_FUNC(ESCMenu);
 };
+class FailMenu :public cocos2d::Layer
+{
+public:
+	virtual bool init();
+	void failToSelectMenu();
+	void setCallBackOn();
+	cocos2d::EventListenerKeyboard *keyboardListener;
+	CREATE_FUNC(FailMenu);
+};
 class Combat :public cocos2d::Layer                   //class Combat is where to put all the balls and food
 {
 public:
@@ -30,6 +39,7 @@ public:
 	cocos2d::TMXTiledMap * _BG;
 	Combat * _BC;
 	ESCMenu * _ESC;
+	FailMenu * _fail;
 	static cocos2d::Scene  *createScene(int ballID);
 	virtual bool init();
 	void setCameraFollow(float nodeX,float nodeY);

@@ -3,7 +3,7 @@
 #include"MainMenu.h"
 #include"BattleField.h"
 USING_NS_CC;
-cocos2d::Scene *BallSelectMenu::createScene(bool isMP)
+Scene *BallSelectMenu::createScene(bool isMP)
 {
 	auto scene = Scene::create();
 	auto layer_ballSelectMenu = BallSelectMenu::create();

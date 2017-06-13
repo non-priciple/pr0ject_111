@@ -62,7 +62,7 @@ unsigned int Balls::getLevel()
 void Balls::updateRadius()                                          //update the radius and size when level changes
 {
 	this->setScale(sqrt(_level/100) / 10);
-	_radius = sqrt(_level/100) * 260 / 10;
+	_radius = sqrt(_level/100) * 234 / 10;
 }
 void Balls:: addLevel(const int delLevel)                              //after eating other balls,call this
 {

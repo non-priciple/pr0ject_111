@@ -70,7 +70,7 @@ bool MainBG::init()
 	auto backGround = Sprite::create("StartMenu_BG.png");
 	backGround->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(backGround);
-	Balls* huaJi = Balls::createWithFileName("huaJi.png");
+	Balls* huaJi = Balls::createWithFileName("xibi.png");
 	huaJi->initStatus(1000,1);
 	huaJi->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(huaJi, 1, "HJ");

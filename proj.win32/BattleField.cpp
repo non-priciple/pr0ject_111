@@ -17,7 +17,10 @@ Scene * BattleField::createScene(int ballID)
 	layerBattleField->_BC = layerBC;
 	layerBattleField->_ESC = layerESC;
 	layerBattleField->addChild(layerBC,2);
-	scene->addChild(layerESC,2);
+	auto layerFail = FailMenu::create();
+	layerBattleField->_fail = layerFail;
+	scene->addChild(layerESC,2,0);
+	scene->addChild(layerFail, 3);
 	return scene;
 }
 void BattleField::setCameraFollow(float nodeX,float nodeY)
@@ -36,7 +39,6 @@ void BattleField::update(float del)
 	int nodeCount=0;
 	for (auto target : allballs)
 	{
-
 		Balls* target_b = dynamic_cast<Balls*>(target);
 		if (target_b != nullptr&&target_b->getID() != 0)
 		{
@@ -65,7 +67,8 @@ void BattleField::update(float del)
 	}
 	else
 	{
-
+		k_listener->setEnabled(false);
+		_fail->setVisible(true);
 	}
 	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;
 
@@ -111,6 +114,31 @@ bool ESCMenu::init()              //The menu shown when pressing ESC
 	buttonResume->addClickEventListener(ui::Widget::ccWidgetClickCallback(CC_CALLBACK_0(ESCMenu::resumeToGame, this)));
 	this->addChild(buttonQuit);
 	this->addChild(buttonResume);
+	this->setVisible(false);
+	return true;
+}
+void FailMenu::failToSelectMenu()
+{
+	dynamic_cast<ESCMenu *>(this->getParent()->getChildByTag(0))->quitToMainMenu();
+}
+bool FailMenu::init()
+{
+	if (!Layer::init())
+	{
+		return false;
+	}
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 originPos = Director::getInstance()->getVisibleOrigin();
+	auto failImg = Sprite::create("fail.png");
+	failImg->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
+	this->addChild(failImg);
+	keyboardListener= EventListenerKeyboard::create();
+	keyboardListener->onKeyPressed = [=](EventKeyboard::KeyCode keycode, Event* event)
+	{
+		failToSelectMenu();
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener,this);
+	keyboardListener->setEnabled(false);
 	this->setVisible(false);
 	return true;
 }
