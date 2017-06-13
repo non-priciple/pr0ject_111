@@ -59,7 +59,7 @@ bool Combat::init()
 	}
 	
 	Balls* huaJi = Balls::createWithFileName("huaJi.png");
-	huaJi->initStatus(4000, 1);
+	huaJi->initStatus(1000, 1);
 	huaJi->setPosition(Vec2(640,360));
 	this->addChild(huaJi, 1, "HJ");
 	return true;
