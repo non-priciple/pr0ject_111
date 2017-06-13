@@ -71,7 +71,7 @@ bool MainBG::init()
 	backGround->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(backGround);
 	Balls* huaJi = Balls::createWithFileName("huaJi.png");
-	huaJi->initStatus(1000,1);
+	huaJi->initStatus(10,1);
 	huaJi->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(huaJi, 1, "HJ");
 	num = 0;
@@ -217,7 +217,7 @@ bool MainBG::init()
 		_keycode = keycode;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(k_listener, this);
-	this->schedule(schedule_selector(MainBG::update), 0.03333f);
+	this->schedule(schedule_selector(MainBG::update), 0.016666f);
 	return true;
 }
 
