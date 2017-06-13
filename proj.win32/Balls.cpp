@@ -39,7 +39,7 @@ bool Balls::initStatusMin()
 {
 	this->_level = 1;
 	this->_identity = 0;
-	this->setScale(0.1);
+	this->setScale(0.1f);
 	this->_radius = 26;
 	return true;
 }
@@ -61,31 +61,43 @@ unsigned int Balls::getLevel()
 }
 void Balls::updateRadius()                                          //update the radius and size when level changes
 {
-	this->setScale(sqrt(_level/100) / 10);
-	_radius = sqrt(_level/100) * 234 / 10;
+	this->setScale(sqrt(_level/10) / 10);
+	_radius = sqrt(_level/10) * 234 / 10;
+}
+void Balls::LevelLimit()
+{
+	if (this->_level > 1000)this->_level = 1000;
 }
 void Balls:: addLevel(const int delLevel)                              //after eating other balls,call this
 {
 	_level += delLevel;
-	if (_level > 10000) _level = 10000;								//the level limit should be adjusted later
+	if (_level > 1000) _level = 1000;								//the level limit should be adjusted later
 }
 float Balls::speed()
 {
-	return 100000/10000+this->_level;
+	if (this->_level > 1000)this->_level = 1000;
+	return 7.25 - 0.00625*this->_level;
 }
 
 void Balls::division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield)
 {
-	if (_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&this->_level > 400 && this != nullptr)
+	
+	if (_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&this->_level > 40 && this != nullptr)
 	{
 		this->_level = this->_level / 2;
 		//if (this != nullptr)
 		this->updateRadius();
 		Balls* substitute = this->createWithBallsFrame(this->getSpriteFrame());
 		substitute->initStatus(this->_level, this->_identity);
-		substitute->setPosition(this->getPosition());
-		auto moveTo = cocos2d::MoveTo::create(0.3f, cocos2d::Vec2(x, y));
-		substitute->runAction(moveTo);
+		float distance = cocos2d::ccpDistance(this->getPosition(), cocos2d::Vec2(x, y));
+		if (distance < 0.01f)distance = 0.01f;
+		float x1 = this->getPositionX() + (x - this->getPositionX())  / distance;
+		float y1 = this->getPositionY() + (y - this->getPositionY())  / distance;
+		float x2 = (x - this->getPositionX()) * 100 / distance;
+		float y2 = (y - this->getPositionY()) * 100 / distance;
+		substitute->setPosition(x1,y1);
+		auto move = cocos2d::MoveBy::create(0.2f, cocos2d::Vec2(2*x2,2*y2));
+		substitute->runAction(move);
 		_Battelfield->addChild(substitute, 1);
 	}
 }
@@ -102,17 +114,20 @@ void Balls::movement(float x, float y, cocos2d::Layer *_Battlefield, int player_
 			if (distance < 0.01f)distance = 0.01f;
 			if (distance < the_target->_radius + this->_radius)
 			{
-				float x2 = this->getPositionX() - (the_target->getPositionX() - this->getPositionX()) *(the_target->_radius+this->_radius-distance)/ distance;
-				float y2 = this->getPositionY() - (the_target->getPositionY() - this->getPositionY())  *(the_target->_radius + this->_radius - distance) / distance;
+				float x2 = this->getPositionX() - (the_target->getPositionX() - this->getPositionX()) *(the_target->_radius + this->_radius - distance) / distance;
+				float y2 = this->getPositionY() - (the_target->getPositionY() - this->getPositionY()) *(the_target->_radius + this->_radius - distance) / distance;
 				this->setPosition(cocos2d::Vec2(x2, y2));
 			}
 		}
 	}
-	float distance = cocos2d::ccpDistance(this->getPosition(),cocos2d::Vec2(x,y));
-	if (distance < 0.01f)distance = 0.01f;
-	float x1 = this->getPositionX() + (x - this->getPositionX()) *  3/ distance;
-	float y1 = this->getPositionY() + (y - this->getPositionY()) *  3/ distance;
-	this->setPosition(x1, y1);
+	if (this->_identity == player_id)
+	{
+		float distance = cocos2d::ccpDistance(this->getPosition(), cocos2d::Vec2(x, y));
+		if (distance < 0.01f)distance = 0.01f;
+		float x1 = this->getPositionX() + (x - this->getPositionX()) * this->speed() / distance;
+		float y1 = this->getPositionY() + (y - this->getPositionY()) * this->speed() / distance;
+		this->setPosition(x1, y1);
+	}
 }
 void Balls::swallow(cocos2d::Layer *_Battlefield)
 {
