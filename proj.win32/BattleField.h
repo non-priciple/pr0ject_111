@@ -23,11 +23,7 @@ public:
 class Combat :public cocos2d::Layer                   //class Combat is where to put all the balls and food
 {
 public:
-	int foodCount;
 	int _meBall;
-	
-	void foodRefresh(float del);
-	void foodCreator();
 	virtual bool init();
 	Combat(int meBall) :_meBall(meBall) {}
 	static Combat * create(int meBall) 
@@ -46,12 +42,24 @@ public:
 		} 
 	}
 };
+class Food :public cocos2d::Layer
+{
+public:
+	int foodCount;
+	virtual bool init();
+	void foodRefresh(float del);
+	void foodCreator();
+	CREATE_FUNC(Food);
+};
 class BattleField : public cocos2d::Layer             //class BattleField is used as the parent node
 {
 public:
 	//BackGround * _BG;
 	int x;
 	int y;
+	float nodeX;
+	float nodeY;
+	int nodeCount;
 	cocos2d::EventKeyboard::KeyCode _keycode;
 	cocos2d::EventListenerKeyboard *k_listener;
 	void update(float del);
@@ -59,11 +67,21 @@ public:
 	Combat * _BC;
 	ESCMenu * _ESC;
 	FailMenu * _fail;
+	Food * _food;
 	static cocos2d::Scene  *createScene(int ballID);
 	virtual bool init();
-	void setCameraFollow(float nodeX,float nodeY);
+	void setCameraFollow();
 	CREATE_FUNC(BattleField);
 };
+class ScoreCounter : public cocos2d::Layer
+{
+public:
+	virtual bool init();
+	void scoreUpdate(float del);
+	int score;
+	CREATE_FUNC(ScoreCounter);
+};
+
 /*class BackGround :public cocos2d::Layer
 {
 

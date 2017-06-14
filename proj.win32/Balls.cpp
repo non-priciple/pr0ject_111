@@ -149,12 +149,12 @@ void Balls::swallow(cocos2d::Layer *_Battlefield)
 				{
 					_Battlefield->removeChild(target_b);
 					this->addLevel(target_b->_level);
-					if (target_b->getID() == 0)dynamic_cast<Combat*>(_Battlefield)->foodCount--;
+					if (target_b->getID() == 0)dynamic_cast<Food *>(_Battlefield)->foodCount--;
 				}
 				else if (this->_level < target_b->_level)
 				{
 					_Battlefield->removeChild(this);
-					if (this->getID() == 0)dynamic_cast<Combat*>(_Battlefield)->foodCount--;
+					if (this->getID() == 0)dynamic_cast<Food *>(_Battlefield)->foodCount--;
 				}
 			}
 		}
