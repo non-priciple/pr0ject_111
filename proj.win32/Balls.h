@@ -6,7 +6,7 @@
 class Balls : public cocos2d::Sprite
 {
 private:
-	unsigned int _level;
+	float _level;
 	int _radius;
 	int _identity;                                                     //sync with the id of Character;
 public:
@@ -22,8 +22,9 @@ public:
 	unsigned int getLevel();
 	void updateRadius();                                    //update the radius and size when level changes
 	void addLevel(const int delLevel);                           //after eating other balls,call this
+	void LevelLimit();
 	float speed();
-	void division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield, cocos2d::EventListenerKeyboard* listener);
+	void division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield);
 	void movement(float x, float y, cocos2d::Layer *_Battlefield, int player_id);
 	void swallow(cocos2d::Layer *_Battlefield);
 };

@@ -36,15 +36,15 @@ bool MainMenu::init()
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("titlemusic.mp3");
 	//the Start Button
 	auto startGame_button = Button::create("StartMenu_startbutton.png");
-	startGame_button->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 + originPos.y));
-	startGame_button->setScale(0.6);
+	startGame_button->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 3 + originPos.y));
+	startGame_button->setScale(0.7);
 	startGame_button->addClickEventListener(Widget::ccWidgetClickCallback(CC_CALLBACK_0(MainMenu::switchSceneToSelectSP,this)));
 	this->addChild(startGame_button);	
-	auto startGame_button_mp = Button::create("StartMenu_startbutton_MP.png");
-	startGame_button_mp->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 - 110 + originPos.y));
-	startGame_button_mp->setScale(0.6);
-	startGame_button_mp->addClickEventListener(Widget::ccWidgetClickCallback(CC_CALLBACK_0(MainMenu::switchSceneToSelectMP,this)));
-	this->addChild(startGame_button_mp);
+	//auto startGame_button_mp = Button::create("StartMenu_startbutton_MP.png");
+	//startGame_button_mp->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2.7 - 110 + originPos.y));
+	//startGame_button_mp->setScale(0.6);
+	//startGame_button_mp->addClickEventListener(Widget::ccWidgetClickCallback(CC_CALLBACK_0(MainMenu::switchSceneToSelectMP,this)));
+	//this->addChild(startGame_button_mp);
 	//the title logo
 	auto titleLogo = Sprite::create("StartMenu_titlelogo.png");
 	titleLogo->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 1.4 + originPos.y));
@@ -56,9 +56,6 @@ bool MainMenu::init()
 	}
 	return true;
 }
-
-int count = 0;
-
 bool MainBG::init()
 {
 	if (!Layer::init())
@@ -72,80 +69,9 @@ bool MainBG::init()
 	backGround->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(backGround);
 	Balls* huaJi = Balls::createWithFileName("huaJi.png");
-	huaJi->initStatus(1000,1);
+	huaJi->initStatus(600,1);
 	huaJi->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(huaJi, 1, "HJ");
-	num = 0;
-	
-	float whether_visible=0;
-	while (count < 3000)
-	{
-		int xPos = CCRANDOM_0_1() * 1580;
-		int yPos = CCRANDOM_0_1() * 1000;
-		float food_colour;
-		food_colour = CCRANDOM_0_1();
-		if (food_colour < 0.17) {
-			auto food = Balls::createWithFileName("food_r.png");
-			food->setPosition(Vec2(xPos, yPos));
-			food->initStatusMin();
-			whether_visible = CCRANDOM_0_1();
-			if (whether_visible<0.1)food->setVisible(true); 
-			else food->setVisible(false);
-			this->addChild(food);
-			count += 1;
-		}
-		else if (food_colour < 0.34) {
-			auto food = Balls::createWithFileName("food_y.png");
-			food->setPosition(Vec2(xPos, yPos));
-			food->initStatusMin();
-			whether_visible = CCRANDOM_0_1();
-			if (whether_visible<0.1)food->setVisible(true);
-			else food->setVisible(false);
-			this->addChild(food);
-			count += 1;
-		}
-		else if (food_colour < 0.5) {
-			auto food = Balls::createWithFileName("food_b.png");
-			food->setPosition(Vec2(xPos, yPos));
-			food->initStatusMin(); 
-			whether_visible = CCRANDOM_0_1();
-			if (whether_visible<0.1)food->setVisible(true);
-			else food->setVisible(false);
-			this->addChild(food);
-			count += 1;
-		}
-		else if (food_colour < 0.67) {
-			auto food = Balls::createWithFileName("food_g.png");
-			food->setPosition(Vec2(xPos, yPos));
-			food->initStatusMin();	 
-			whether_visible = CCRANDOM_0_1();
-			if (whether_visible<0.1)food->setVisible(true);
-			else food->setVisible(false);
-			this->addChild(food);
-			count += 1;
-		}
-		else if (food_colour < 0.84) {
-			auto food = Balls::createWithFileName("food_p.png");
-			food->setPosition(Vec2(xPos, yPos));
-			food->initStatusMin();
-			whether_visible = CCRANDOM_0_1();
-			if (whether_visible<0.1)food->setVisible(true);
-			else food->setVisible(false);
-			this->addChild(food);
-			count += 1;
-		}
-		else {
-			auto food = Balls::createWithFileName("food_s.png");
-			food->setPosition(Vec2(xPos, yPos));
-			food->initStatusMin();
-			whether_visible = CCRANDOM_0_1();
-			if (whether_visible<0.1)food->setVisible(true);
-			else food->setVisible(false);
-			this->addChild(food);
-			count += 1;
-		}
-	}
-	count = 0;
 	// test balls
 /*	Balls*test1 = Balls::createWithFileName("huaji.png");
 	test1->initStatus(300,0);
@@ -176,19 +102,17 @@ bool MainBG::init()
 		_keycode = keycode;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(k_listener, this);
-	this->schedule(schedule_selector(MainBG::update), 0.03333f);
+//	this->schedule(schedule_selector(MainBG::update), 0.03333f);
+	this->scheduleUpdate();
 	return true;
 }
-
-int times = 0;
-
 void MainBG::update(float dt)
 {
 	cocos2d::Vector<Node*> allballs;
-
 	allballs = this->getChildren();
 	for (auto target : allballs)
 	{
+		
 		if (target->getPositionX() > 1280 || target->getPositionX() < 0 || target->getPositionY() > 720 || target->getPositionY() < 0)
 		{
 			target->setPosition(Vec2(640, 360));
@@ -196,70 +120,12 @@ void MainBG::update(float dt)
 		Balls* target_b = dynamic_cast<Balls*>(target);
 		if (target_b != nullptr&&target_b->getID() != 0)
 		{
+			target_b->LevelLimit();
 			target_b->movement(x,y,this,1);
 			target_b->swallow(this);
-			if(target_b!=nullptr)
-			target_b->updateRadius();
-			if(target_b!=nullptr)
-			target_b->division(x, y, _keycode, this, this->k_listener);
+			if(target_b!=nullptr&&_keycode== EventKeyboard::KeyCode::KEY_SPACE)
+				target_b->division(x, y, _keycode, this);
 		}
 	}
-			_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;	
-
-			
-			times += 1;
-			if (times >= 200)
-			{
-				while (count < 300)
-				{
-					int xPos = CCRANDOM_0_1() * 1580;
-					int yPos = CCRANDOM_0_1() * 1000;
-					float food_colour;
-					food_colour = CCRANDOM_0_1();
-					if (food_colour < 0.17) {
-						auto food = Balls::createWithFileName("food_r.png");
-						food->setPosition(Vec2(xPos, yPos));
-						food->initStatusMin();
-						this->addChild(food);
-						count += 1;
-					}
-					else if (food_colour < 0.34) {
-						auto food = Balls::createWithFileName("food_y.png");
-						food->setPosition(Vec2(xPos, yPos));
-						food->initStatusMin();
-						this->addChild(food);
-						count += 1;
-					}
-					else if (food_colour < 0.5) {
-						auto food = Balls::createWithFileName("food_b.png");
-						food->setPosition(Vec2(xPos, yPos));
-						food->initStatusMin();
-						this->addChild(food);
-						count += 1;
-					}
-					else if (food_colour < 0.67) {
-						auto food = Balls::createWithFileName("food_g.png");
-						food->setPosition(Vec2(xPos, yPos));
-						food->initStatusMin();
-						this->addChild(food);
-						count += 1;
-					}
-					else if (food_colour < 0.84) {
-						auto food = Balls::createWithFileName("food_p.png");
-						food->setPosition(Vec2(xPos, yPos));
-						food->initStatusMin();
-						this->addChild(food);
-						count += 1;
-					}
-					else {
-						auto food = Balls::createWithFileName("food_s.png");
-						food->setPosition(Vec2(xPos, yPos));
-						food->initStatusMin();
-						this->addChild(food);
-						count += 1;
-					}
-				}
-				times = 0;
-			}
-			
+	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;	
 }
