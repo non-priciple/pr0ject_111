@@ -11,11 +11,40 @@ public:
 	void resumeToGame();
 	CREATE_FUNC(ESCMenu);
 };
-class Combat :public cocos2d::Layer                   //class Combat is where to put all the balls and food
+class FailMenu :public cocos2d::Layer
 {
 public:
 	virtual bool init();
-	CREATE_FUNC(Combat);
+	void failToSelectMenu();
+	void setCallBackOn();
+	cocos2d::EventListenerKeyboard *keyboardListener;
+	CREATE_FUNC(FailMenu);
+};
+class Combat :public cocos2d::Layer                   //class Combat is where to put all the balls and food
+{
+public:
+	int foodCount;
+	int _meBall;
+	
+	void foodRefresh(float del);
+	void foodCreator();
+	virtual bool init();
+	Combat(int meBall) :_meBall(meBall) {}
+	static Combat * create(int meBall) 
+	{ 
+		Combat *pRet = new(std::nothrow) Combat(meBall); 
+		if (pRet && pRet->init()) 
+		{ 
+			pRet->autorelease(); 
+			return pRet; 
+		} 
+		else 
+		{ 
+			delete pRet; 
+			pRet = nullptr; 
+			return nullptr; 
+		} 
+	}
 };
 class BattleField : public cocos2d::Layer             //class BattleField is used as the parent node
 {
@@ -26,13 +55,13 @@ public:
 	cocos2d::EventKeyboard::KeyCode _keycode;
 	cocos2d::EventListenerKeyboard *k_listener;
 	void update(float del);
-	int _me;
 	cocos2d::TMXTiledMap * _BG;
 	Combat * _BC;
 	ESCMenu * _ESC;
+	FailMenu * _fail;
 	static cocos2d::Scene  *createScene(int ballID);
 	virtual bool init();
-	void setCameraFollow(float del);
+	void setCameraFollow(float nodeX,float nodeY);
 	CREATE_FUNC(BattleField);
 };
 /*class BackGround :public cocos2d::Layer

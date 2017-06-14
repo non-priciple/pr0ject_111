@@ -5,7 +5,6 @@ class MainBG :public cocos2d::Layer
 public:
 	float x;
 	float y;
-	int num;
 	cocos2d::EventKeyboard::KeyCode _keycode;
 	cocos2d::EventListenerKeyboard *k_listener;
 	virtual bool init();
