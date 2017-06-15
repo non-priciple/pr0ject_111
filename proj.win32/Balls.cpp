@@ -112,6 +112,7 @@ float Balls::speed()
 {
 	if (this->_level > 1000)this->_level = 1000;
 	float ballSpeed = 7.25 - 0.00625*this->_level;
+	if (this->getID() == 2)ballSpeed = ballSpeed*0.9;
 	if (isInWater(this->getPositionX(), this->getPositionY())) ballSpeed = ballSpeed*0.6;
 	return ballSpeed;
 }
