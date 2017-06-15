@@ -62,15 +62,21 @@ bool MainBG::init()
 	{
 		return false;
 	}
+	x = 640;
+	y = 360;
 	this->setLocalZOrder(-1);
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 originPos = Director::getInstance()->getVisibleOrigin();
 	auto backGround = Sprite::create("StartMenu_BG.png");
 	backGround->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(backGround);
-	Balls* huaJi = Balls::createWithFileName("huaJi.png");
+	Balls* huaJi = Balls::createWithFileName("greenhat.png");
+	float isChange = CCRANDOM_0_1();
+	if (isChange < 0.33f)huaJi->initWithFile("huaJi.png");
+	else if (isChange < 0.66f)huaJi->initWithFile("teri.png");
 	huaJi->initStatus(600,1);
 	huaJi->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
+	huaJi->runAction(CCRepeatForever::create(RotateBy::create(2, 360)));
 	this->addChild(huaJi, 1, "HJ");
 	// test balls
 /*	Balls*test1 = Balls::createWithFileName("huaji.png");
