@@ -172,7 +172,7 @@ bool Combat::init()
 	else if(_meBall==2) myBall = Balls::createWithFileName("xibi.png");
 	else if(_meBall==3) myBall = Balls::createWithFileName("huaJi.png");
 	else return false;
-	myBall->initStatus(100, 1);
+	myBall->initStatus(10, 1);
 	myBall->setPosition(Vec2(640,360));
 	this->addChild(myBall, 1);
 
