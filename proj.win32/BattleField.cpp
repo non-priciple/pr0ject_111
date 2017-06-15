@@ -227,7 +227,7 @@ bool FailMenu::init()
 	auto failImg = Sprite::create("fail.png");
 	failImg->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(failImg);
-	auto result = LabelTTF::create("0", "arial", 60);
+	auto result = LabelTTF::create("0", "Chiller", 60);
 	result->setPosition(Vec2(640, 100));
 	this->addChild(result,2,"result");
 	keyboardListener= EventListenerKeyboard::create();
@@ -423,20 +423,20 @@ bool ScoreCounter::init()
 	}
 	score = 0;
 	this->schedule(schedule_selector(ScoreCounter::scoreUpdate), 1.0f);
-	auto scoreDisplay = LabelTTF::create("0", "arial", 38);
+	auto scoreDisplay = LabelTTF::create("0", "Chiller", 40);
 	auto timeBG = Sprite::create("time.png");
 	timeBG->setPosition(Vec2(154, 680));
 	timeBG->setScale(0.8);
 	this->addChild(timeBG, 0);
 	scoreDisplay->setColor(Color3B::WHITE);
-	scoreDisplay->setPosition(Vec2(150, 683));
+	scoreDisplay->setPosition(Vec2(148, 681));
 	this->addChild(scoreDisplay, 1, "display");
 	return true;
 }
 void ScoreCounter::scoreUpdate(float del)
 {
 	score++;
-	dynamic_cast<LabelTTF *>(this->getChildByName("display"))->setString(__String::createWithFormat("%d:%d", (score / 60), (score % 60))->getCString());
+	dynamic_cast<LabelTTF *>(this->getChildByName("display"))->setString(__String::createWithFormat("%d\' %d\"", (score / 60), (score % 60))->getCString());
 }
 
 

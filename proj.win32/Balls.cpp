@@ -5,6 +5,32 @@
 #include"Balls.h"
 #include<math.h>
 #include"BattleField.h"
+bool isInWater(float x,float y)
+{
+	if (x <= -2560 || x >= 2560)
+	{
+		return false;
+	}
+	else if(x<=-2432||x>=2432)
+	{
+		if (y >= -2560 && y <= 2560)
+		{
+			if (y >= 256 || y <= -256)return true;
+			else return false;
+		}
+	}
+	else
+	{
+		if ((y >= -2560 && y <= -2432) || (y >= 2432 && y <= 2560))
+		{
+			if (x >= 256 || x <= -256)return true;
+			else return false;
+		}
+	}
+	return false;
+}
+
+
 
 Balls* Balls::createWithFileName(const std::string & filename)
 {
@@ -78,7 +104,9 @@ void Balls:: addLevel(const int delLevel)                              //after e
 float Balls::speed()
 {
 	if (this->_level > 1000)this->_level = 1000;
-	return 7.25 - 0.00625*this->_level;
+	float ballSpeed = 7.25 - 0.00625*this->_level;
+	if (isInWater(this->getPositionX(), this->getPositionY())) ballSpeed = ballSpeed*0.6;
+	return ballSpeed;
 }
 
 void Balls::division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield)

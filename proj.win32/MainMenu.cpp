@@ -62,6 +62,8 @@ bool MainBG::init()
 	{
 		return false;
 	}
+	x = 640;
+	y = 360;
 	this->setLocalZOrder(-1);
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 originPos = Director::getInstance()->getVisibleOrigin();
