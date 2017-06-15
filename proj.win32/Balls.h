@@ -8,6 +8,7 @@ class Balls : public cocos2d::Sprite
 private:
 	float _level;
 	int _radius;
+	int _subid;
 	int _identity;                                                     //sync with the id of Character;
 public:
 	bool isfood;
@@ -16,8 +17,11 @@ public:
 	static Balls* createWithBallsFrame(cocos2d::SpriteFrame *spriteFrame);
 	bool initStatus(int tlevel, int id);
 	bool initStatusMin();
+	bool initStatusBIG(int tlevel, int id);
 	void setID(int identity);
+	void setSUBID(int SUBID);
 	int getID();
+	int getSUBID();
 	int getRadius();
 	unsigned int getLevel();
 	void updateRadius();                                    //update the radius and size when level changes

@@ -2,9 +2,9 @@
 //default designed size is  480*480 p          
 //default designed radius=339 p                
 #include <cocos2d.h>
-#include"Balls.h"
 #include<math.h>
 #include"BattleField.h"
+#include"AiBalls.h"
 
 Balls* Balls::createWithFileName(const std::string & filename)
 {
@@ -44,13 +44,22 @@ bool Balls::initStatusMin()
 	this->_radius = 26;
 	return true;
 }
+
 void Balls::setID(int identity)
 {
 	_identity = identity;
 }
+void Balls::setSUBID(int subid)
+{
+	_subid = subid;
+}
 int Balls::getID()
 {
 	return _identity;
+}
+int Balls::getSUBID()
+{
+	return _subid;
 }
 int Balls:: getRadius()
 {
@@ -147,6 +156,11 @@ void Balls::swallow(cocos2d::Layer *_Battlefield)
 			{
 				if (this->_level > target_b->_level)
 				{
+					if (target_b->getID() == 2)
+					{
+						auto newAI = AiBalls::createWithFileName(_Battlefield, "food_b.png", 2, target_b->getSUBID(), this->getLevel()+(target_b->getSUBID()*30));
+						newAI->setPosition(newAI->getNewPosition(target_b->getSUBID()));
+					}
 					_Battlefield->removeChild(target_b);
 					this->addLevel(target_b->_level);
 					if (target_b->getID() == 0)dynamic_cast<Food *>(_Battlefield)->foodCount--;
