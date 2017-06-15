@@ -57,6 +57,11 @@ public:
 	//BackGround * _BG;
 	int x;
 	int y;
+	//where is ai going
+	float x_ai;
+	float y_ai;
+	int BGlevel = 0;
+
 	float nodeX;
 	float nodeY;
 	int nodeCount;
@@ -70,6 +75,7 @@ public:
 	Food * _food;
 	static cocos2d::Scene  *createScene(int ballID);
 	virtual bool init();
+	void getDirection(float);
 	void setCameraFollow();
 	CREATE_FUNC(BattleField);
 };
