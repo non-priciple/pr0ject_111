@@ -44,6 +44,14 @@ bool Balls::initStatusMin()
 	this->_radius = 26;
 	return true;
 }
+bool Balls::initStatusBoom()
+{
+	this->_level = 40;
+	this->_identity = -1;
+	this->setScale(0.2);
+	this->_radius = 46;
+	return true;
+}
 void Balls::setID(int identity)
 {
 	_identity = identity;
@@ -103,6 +111,17 @@ void Balls::division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode
 		_Battelfield->addChild(substitute, 1);
 	}
 }
+void Balls::divisionBoom( cocos2d::Layer* _Battelfield)
+{
+	if(this->_level<=40)this->getParent()->removeChild(this);
+	else this->_level = 20;
+	cocos2d::Sprite* substitute = create("huaJi.png");
+	substitute->setScale(0.141f);
+	substitute->setPosition(this->getPosition());
+	_Battelfield->addChild(substitute, 1);
+
+}
+
 void Balls::movement(float x, float y, cocos2d::Layer *_Battlefield, int player_id)
 {
 	cocos2d::Vector<Node*> _allballs;
@@ -133,28 +152,43 @@ void Balls::movement(float x, float y, cocos2d::Layer *_Battlefield, int player_
 }
 void Balls::swallow(cocos2d::Layer *_Battlefield)
 {
-	float thisX = this->getPositionX();
-	float thisY = this->getPositionY();
 	cocos2d::Vector<Node*> _allballs;
 	_allballs = _Battlefield->getChildren();
 	for (auto _target : _allballs)
 	{
 		Balls* target_b = dynamic_cast<Balls*>(_target);
-		if (target_b != nullptr&&target_b->_identity != this->_identity&& abs(target_b->getPositionX()-thisX)<234 && abs(target_b->getPositionY() - thisY)<234)
+		if (target_b != nullptr&&target_b->_identity != this->_identity)
 		{
 			float _distance = cocos2d::ccpDistance(target_b->getPosition(), this->getPosition());
-			if (_distance <= this->_radius + target_b->_radius)
+			if (this->_identity != -1 && target_b->_identity != -1)
 			{
-				if (this->_level > target_b->_level)
+				if (_distance <= this->_radius + target_b->_radius)
 				{
-					_Battlefield->removeChild(target_b);
-					this->addLevel(target_b->_level);
-					if (target_b->getID() == 0)dynamic_cast<Food *>(_Battlefield)->foodCount--;
+					if (this->_level > target_b->_level)
+					{
+						_Battlefield->removeChild(target_b);
+						this->addLevel(target_b->_level);
+						if (target_b->getID() == 0)dynamic_cast<Food *>(_Battlefield)->foodCount--;
+					}
+					else if (this->_level < target_b->_level)
+					{
+						_Battlefield->removeChild(this);
+						if (this->getID() == 0)dynamic_cast<Food *>(_Battlefield)->foodCount--;
+					}
 				}
-				else if (this->_level < target_b->_level)
+			}
+			
+			else if (_distance <= this->_radius + target_b->_radius)
+			{
+				if (this->getID() == -1)
 				{
 					_Battlefield->removeChild(this);
-					if (this->getID() == 0)dynamic_cast<Food *>(_Battlefield)->foodCount--;
+					target_b->divisionBoom(_Battlefield);
+				}
+				else
+				{
+					_Battlefield->removeChild(target_b);
+					this->divisionBoom(_Battlefield);
 				}
 			}
 		}

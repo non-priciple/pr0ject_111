@@ -16,6 +16,7 @@ public:
 	static Balls* createWithBallsFrame(cocos2d::SpriteFrame *spriteFrame);
 	bool initStatus(int tlevel, int id);
 	bool initStatusMin();
+	bool initStatusBoom();
 	void setID(int identity);
 	int getID();
 	int getRadius();
@@ -25,6 +26,7 @@ public:
 	void LevelLimit();
 	float speed();
 	void division(float x, float y, cocos2d::EventKeyboard::KeyCode &_keycode, cocos2d::Layer* _Battelfield);
+	void divisionBoom( cocos2d::Layer* _Battelfield);
 	void movement(float x, float y, cocos2d::Layer *_Battlefield, int player_id);
 	void swallow(cocos2d::Layer *_Battlefield);
 };

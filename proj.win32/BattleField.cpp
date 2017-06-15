@@ -257,11 +257,19 @@ void Food::foodRefresh(float del)
 			this->addChild(food);
 			foodCount += 1;
 		}
-		else
+		else if(food_colour<0.95)
 		{
 			auto food = Balls::createWithBallsFrame(cache->getSpriteFrameByName("scolor"));
 			food->setPosition(Vec2(xPos, yPos));
 			food->initStatusMin();
+			this->addChild(food);
+			foodCount += 1;
+		}
+		else
+		{
+			auto food = Balls::createWithBallsFrame(cache->getSpriteFrameByName("Boom"));
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusBoom();
 			this->addChild(food);
 			foodCount += 1;
 		}
@@ -270,7 +278,7 @@ void Food::foodRefresh(float del)
 void Food::foodCreator()
 {
 	SpriteFrameCache::getInstance()->destroyInstance();
-	while (foodCount < 6)
+	while (foodCount < 7)
 	{
 		int xPos = CCRANDOM_MINUS1_1() * 4800;
 		int yPos = CCRANDOM_MINUS1_1() * 4800;
@@ -319,12 +327,21 @@ void Food::foodCreator()
 			this->addChild(food);
 			foodCount += 1;
 		}
-		else 
+		else if (foodCount==5)
 		{
 			auto food = Balls::createWithFileName("food_s.png");
 			SpriteFrameCache::getInstance()->addSpriteFrame(food->getSpriteFrame(), "scolor");
 			food->setPosition(Vec2(xPos, yPos));
 			food->initStatusMin();
+			this->addChild(food);
+			foodCount += 1;
+		}
+		else
+		{
+			auto food = Balls::createWithFileName("Boom.png");
+			SpriteFrameCache::getInstance()->addSpriteFrame(food->getSpriteFrame(), "Boom");
+			food->setPosition(Vec2(xPos, yPos));
+			food->initStatusBoom();
 			this->addChild(food);
 			foodCount += 1;
 		}
