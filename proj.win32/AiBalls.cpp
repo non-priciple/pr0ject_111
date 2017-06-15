@@ -2,52 +2,76 @@
 
 USING_NS_CC;
 
-AiBalls* AiBalls::createWithFileName(Layer*lSender, const std::string& filename, int ID)
+AiBalls* AiBalls::createWithFileName(Layer*lSender, const std::string& filename, int ID,int subid, int level)
 {
 	AiBalls* zz = new(std::nothrow) AiBalls;
-	if (zz&&zz->initWithFile(filename) && zz->initStatus(50, ID))
+	if (zz&&zz->initWithFile(filename) && zz->initStatus(level, ID))
 	{
 		zz->autorelease();
 		lSender->addChild(zz, 1);
-		zz->setPosition(Vec2(-200, -200));
+		zz->setSUBID(subid);
 		return zz;
 	}
 	CC_SAFE_DELETE(zz);
 	return nullptr;
 }
 
-int AiBalls::getDirection(Layer* lSender, float dt)
+Vec2&AiBalls::_getDirection(AiBalls*target_p, float nodeX, float nodeY, int BGlevel)
 {
-	int distance, x0, y0;
-
-	cocos2d::Vector<Node*> allballs;
-	allballs = this->getChildren();
-
-	for (auto target : allballs)
+	int _x_ai = 0, _y_ai = 0;
+	float distance, x0, y0;
+	x0 = target_p->getPositionX() - nodeX;
+	y0 = target_p->getPositionY() - nodeY;
+	distance = (0.0001*(x0*x0) + 0.0001*(y0*y0));
+	
+	if (distance > 40)
 	{
-		Balls* target_p = dynamic_cast<Balls*>(target);
-		if (target_p->getID() == 1)
+		_x_ai = nodeX;
+		_y_ai = nodeY;
+	}
+
+	if (distance < 40)
+	{
+		if (target_p->getLevel() <= BGlevel)
 		{
-			x0 = this->getPositionX() - target_p->getPositionX();
-			y0 = this->getPositionY() - target_p->getPositionY();
-
-			distance = (x0*x0) + (y0*y0);
-
-			if (distance <= 500)
-			{
-				x_ai = target_p->getPositionX();
-				y_ai = target_p->getPositionY();
-				return 0;
-			}
+			_x_ai = 2 * target_p->getPositionX() - nodeX;
+			_y_ai = 2 * target_p->getPositionY() - nodeY;
+		}
+		else if (target_p->getLevel() > BGlevel)
+		{
+			_x_ai = nodeX;
+			_y_ai = nodeY;
 		}
 	}
+	return Vec2(_x_ai, _y_ai);
+}
+Vec2& AiBalls::getOriginalPosition(int num)
+{
 
-	if (distance>500)
-	{
-		x_ai = CCRANDOM_0_1() * 1280;
-		y_ai = CCRANDOM_0_1() * 720;
-
-		return 0;
-	}
-	return 0;
+	if (num == 0) return Vec2(1640, 1640);
+	if (num == 1) return Vec2(2640, 2640);
+	if (num == 2) return Vec2(3640, 3640);
+	if (num == 3) return Vec2(4640, 4640);
+	if (num == 4) return Vec2(1640, -1640);
+	if (num == 5) return Vec2(2640, -2640);
+	if (num == 6) return Vec2(3640, -3640);
+	if (num == 7) return Vec2(4640, -4640);
+	if (num == 8) return Vec2(-1640, 1640);
+	if (num == 9) return Vec2(-2640, 2640);
+	if (num == 10) return Vec2(-3640, 3640);
+	if (num == 11) return Vec2(-2640, 4640);
+	if (num == 12) return Vec2(-1640, -1640);
+	if (num == 13) return Vec2(-2640, -2640);
+	if (num == 14) return Vec2(-3640, -3640);
+	if (num == 15) return Vec2(-4640, -4640);
+	return Vec2(0, 0);
+}
+Vec2& AiBalls::getNewPosition(int SUBID)
+{
+	if (SUBID == 1) return Vec2(0, 0);
+	if (SUBID == 2) return Vec2(5120, 5120);
+	if (SUBID == 3) return Vec2(5120, -5120);
+	if (SUBID == 4)return Vec2(-5120, 5120);
+	if (SUBID == 5)return Vec2(-5120, -5120);
+	return Vec2(0, 0);
 }

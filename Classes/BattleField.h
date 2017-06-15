@@ -58,8 +58,11 @@ public:
 	int x;
 	int y;
 	//where is ai going
-	float x_ai;
-	float y_ai;
+	cocos2d::Vec2& _direction_1 = cocos2d::Vec2(0, 0);
+	cocos2d::Vec2& _direction_2 = cocos2d::Vec2(0, 0);
+	cocos2d::Vec2& _direction_3 = cocos2d::Vec2(0, 0);
+	cocos2d::Vec2& _direction_4 = cocos2d::Vec2(0, 0);
+	cocos2d::Vec2& _direction_5 = cocos2d::Vec2(0, 0);
 	int BGlevel = 0;
 
 	float nodeX;

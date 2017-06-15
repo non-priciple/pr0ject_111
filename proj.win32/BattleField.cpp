@@ -35,58 +35,22 @@ void BattleField::setCameraFollow()
 }
 void BattleField::getDirection(float dt)
 {
-	float distance, x0, y0;
 	cocos2d::Vector<Node*> allballs;
 
 	allballs = this->_BC->getChildren();
 
 	for (auto target : allballs)
 	{
-		Balls* target_p = dynamic_cast<Balls*>(target);
+		AiBalls* target_p = dynamic_cast<AiBalls*>(target);
 		if (target_p != nullptr)
 		{
-			if (target_p->getID() == 2)
-			{
-				x0 = target_p->getPositionX() - nodeX;
-				y0 = target_p->getPositionY() - nodeY;
-				distance = (0.0001*(x0*x0) + 0.0001*(y0*y0));
-
-				if (target_p->getLevel() <= BGlevel)
-				{
-					if (distance >= 20)
-					{
-						x_ai = CCRANDOM_MINUS1_1() * 5120;
-						y_ai = CCRANDOM_MINUS1_1() * 5120;
-					}
-					else if (distance < 20)
-					{
-						if (target_p->getPositionX() >= nodeX)
-							x_ai = target_p->getPositionX() + x0;
-						else if (target_p->getPositionX() < nodeX)
-							x_ai = target_p->getPositionX() - x0;
-						if (target_p->getPositionY() >= nodeY)
-							y_ai = target_p->getPositionY() + y0;
-						else if (target_p->getPositionY() < nodeY)
-							y_ai = target_p->getPositionY() - y0;
-					}
-				}
-				else if (target_p->getLevel() > BGlevel)
-				{
-					if (distance >= 20)
-					{
-						x_ai = CCRANDOM_MINUS1_1() * 5120;
-						y_ai = CCRANDOM_MINUS1_1() * 5120;
-					}
-					else if (distance < 20)
-					{
-						x_ai = nodeX;
-						y_ai = nodeY;
-					}
-				}
-			}
+			if (target_p->getID() == 2 && target_p->getSUBID() == 1) _direction_1 = target_p->_getDirection(target_p, nodeX, nodeY, BGlevel);
+			if (target_p->getID() == 2 && target_p->getSUBID() == 2) _direction_2 = target_p->_getDirection(target_p, nodeX, nodeY, BGlevel);
+			if (target_p->getID() == 2 && target_p->getSUBID() == 3) _direction_3 = target_p->_getDirection(target_p, nodeX, nodeY, BGlevel);
+			if (target_p->getID() == 2 && target_p->getSUBID() == 4) _direction_4 = target_p->_getDirection(target_p, nodeX, nodeY, BGlevel);
+			if (target_p->getID() == 2 && target_p->getSUBID() == 5) _direction_5 = target_p->_getDirection(target_p, nodeX, nodeY, BGlevel);
 		}
 	}
-	BGlevel = 0;
 }
 void BattleField::update(float del)
 {
@@ -97,6 +61,7 @@ void BattleField::update(float del)
 	float nodeSumX=0;
 	float nodeSumY=0;
 	int nowNodeCount=0;
+	int _BGlevel = 0;
 	for (auto target : allballs)
 	{
 		Balls* target_b = dynamic_cast<Balls*>(target);
@@ -107,8 +72,7 @@ void BattleField::update(float del)
 			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120 - target_b->getRadius());
 			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120 + target_b->getRadius());
 			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120 - target_b->getRadius());
-			if (target_b->getLevel() > BGlevel)
-				BGlevel = target_b->getLevel();
+			if (target_b->getLevel() > _BGlevel) _BGlevel = target_b->getLevel();
 			target_b->swallow(this->_food);
 			target_b->swallow(this->_BC);
 			if (target_b != nullptr&&_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&nodeCount < 8)
@@ -122,23 +86,56 @@ void BattleField::update(float del)
 			nowNodeCount++;
 			target_b->updateRadius();
 		}
-		if (target_b != nullptr&&target_b->getID() == 2)
+		if (target_b != nullptr&&target_b->getID() == 2 && target_b->getSUBID() == 1)
 		{
-			target_b->movement(x_ai, y_ai, this->_BC, 2);
+			target_b->movement(_direction_1.x, _direction_1.y, this->_BC, 2);
+			if (target_b->getPositionX() < -5120 + target_b->getRadius())target_b->setPositionX(-5120 + target_b->getRadius());
+			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120 - target_b->getRadius());
+			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120 + target_b->getRadius());
+			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120 - target_b->getRadius());
+		}
+		if (target_b != nullptr&&target_b->getID() == 2 && target_b->getSUBID() == 2)
+		{
+			target_b->movement(_direction_2.x, _direction_2.y, this->_BC, 2);
+			if (target_b->getPositionX() < -5120 + target_b->getRadius())target_b->setPositionX(-5120 + target_b->getRadius());
+			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120 - target_b->getRadius());
+			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120 + target_b->getRadius());
+			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120 - target_b->getRadius());
+		}
+		if (target_b != nullptr&&target_b->getID() == 2 && target_b->getSUBID() == 3)
+		{
+			target_b->movement(_direction_3.x, _direction_3.y, this->_BC, 2);
+			if (target_b->getPositionX() < -5120 + target_b->getRadius())target_b->setPositionX(-5120 + target_b->getRadius());
+			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120 - target_b->getRadius());
+			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120 + target_b->getRadius());
+			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120 - target_b->getRadius());
+		}
+		if (target_b != nullptr&&target_b->getID() == 2 && target_b->getSUBID() == 4)
+		{
+			target_b->movement(_direction_4.x, _direction_4.y, this->_BC, 2);
+			if (target_b->getPositionX() < -5120 + target_b->getRadius())target_b->setPositionX(-5120 + target_b->getRadius());
+			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120 - target_b->getRadius());
+			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120 + target_b->getRadius());
+			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120 - target_b->getRadius());
+		}
+		if (target_b != nullptr&&target_b->getID() == 2 && target_b->getSUBID() == 5)
+		{
+			target_b->movement(_direction_5.x, _direction_5.y, this->_BC, 2);
+			if (target_b->getPositionX() < -5120 + target_b->getRadius())target_b->setPositionX(-5120 + target_b->getRadius());
+			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120 - target_b->getRadius());
+			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120 + target_b->getRadius());
+			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120 - target_b->getRadius());
+		}
+		if (target_b != nullptr&&target_b->getID() == 2 && target_b->getSUBID() == 6)
+		{
+			target_b->movement(nodeX, nodeY, this->_BC, 2);
 			if (target_b->getPositionX() < -5120 + target_b->getRadius())target_b->setPositionX(-5120 + target_b->getRadius());
 			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120 - target_b->getRadius());
 			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120 + target_b->getRadius());
 			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120 - target_b->getRadius());
 		}
 	}
-	/*allballs = this->getChildren();
-	for (auto target : allballs)
-	{
-		Balls* target_c = dynamic_cast<Balls*>(target);
-		if (target_c != nullptr&&target_c->getID() == 2)
-			target_c->movement(x_ai, y_ai, this, 2);
-	}
-	*/
+	BGlevel = _BGlevel;
 	nodeCount = nowNodeCount;
 	if (nodeCount!=0)
 	{
@@ -166,8 +163,6 @@ bool Combat::init()
 		return false;
 	}
 	Balls * myBall;
-
-
 	if(_meBall==1) myBall = Balls::createWithFileName("cry.png");
 	else if(_meBall==2) myBall = Balls::createWithFileName("xibi.png");
 	else if(_meBall==3) myBall = Balls::createWithFileName("huaJi.png");
@@ -175,10 +170,27 @@ bool Combat::init()
 	myBall->initStatus(10, 1);
 	myBall->setPosition(Vec2(640,360));
 	this->addChild(myBall, 1);
-
 	//create Ai
-	auto aiBalls1 = AiBalls::createWithFileName(this, "food_b.png", 2);
-
+	int num = CCRANDOM_0_1() * 15;
+	auto aiBalls1 = AiBalls::createWithFileName(this, "teri.png", 2, 1, 30);
+	aiBalls1->setPosition(aiBalls1->getOriginalPosition(num));
+	num = CCRANDOM_0_1() * 15;
+	auto aiBalls2 = AiBalls::createWithFileName(this, "rotate.png", 2, 2, 60);
+	aiBalls2->setPosition(aiBalls1->getOriginalPosition(num));
+	aiBalls2->runAction(CCRepeatForever::create(RotateBy::create(2, 360)));
+	num = CCRANDOM_0_1() * 15;
+	auto aiBalls3 = AiBalls::createWithFileName(this, "teri.png", 2, 3, 90);
+	aiBalls3->setPosition(aiBalls1->getOriginalPosition(num));
+	num = CCRANDOM_0_1() * 15;
+	auto aiBalls4 = AiBalls::createWithFileName(this, "rotate.png", 2, 4, 120);
+	aiBalls4->setPosition(aiBalls1->getOriginalPosition(num));
+	aiBalls4->runAction(CCRepeatForever::create(RotateBy::create(2, 360)));
+	num = CCRANDOM_0_1() * 15;
+	auto aiBalls5 = AiBalls::createWithFileName(this, "teri.png", 2, 5, 150);
+	aiBalls5->setPosition(aiBalls1->getOriginalPosition(num));
+	num = CCRANDOM_0_1() * 15;
+	auto aiBalls6 = AiBalls::createWithFileName(this, "greenhat.png", 2, 6, 999);
+	aiBalls6->setPosition(aiBalls1->getOriginalPosition(num));
 	return true;
 }
 void ESCMenu::quitToMainMenu()
@@ -258,7 +270,7 @@ bool BattleField::init()
 	//for debug using¡ü
 	this->scheduleUpdate();
 
-	this->schedule(schedule_selector(BattleField::getDirection), 0.2f);
+	this->schedule(schedule_selector(BattleField::getDirection),0.4f);
 
 	auto m_listener = EventListenerMouse::create();
 	m_listener->onMouseMove = [=](Event * event)
@@ -455,28 +467,3 @@ void ScoreCounter::scoreUpdate(float del)
 	score++;
 	dynamic_cast<LabelTTF *>(this->getChildByName("display"))->setString(__String::createWithFormat("%d\' %d\"", (score / 60), (score % 60))->getCString());
 }
-
-
-		/*if (target_p->getID() == 1)
-		{
-			x0 = this->getPositionX() - target_p->getPositionX();
-			y0 = this->getPositionY() - target_p->getPositionY();
-
-			distance = (x0*x0) + (y0*y0);
-
-			if (distance <= 500)
-			{
-				x_ai = target_p->getPositionX();
-				y_ai = target_p->getPositionY();
-				return 0;
-			}
-		}
-	}
-
-	if (distance>500)
-	{
-		x_ai = CCRANDOM_0_1() * 1280;
-		y_ai = CCRANDOM_0_1() * 720;
-
-		return 0;
-	}*/
