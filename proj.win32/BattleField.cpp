@@ -4,7 +4,8 @@
 // y: -5120 to 5120
 #include "BattleField.h"
 #include "MainMenu.h"
-#include "Balls.h"
+#include "AiBalls.h"
+
 USING_NS_CC;
 Scene * BattleField::createScene(int ballID)
 {
@@ -32,6 +33,61 @@ void BattleField::setCameraFollow()
 	Vec2 delVec = Vec2(640, 360) - this->getPosition() - Vec2(nodeX, nodeY);   //CAUTION!:coordinate system change
 	this->setPosition(this->getPosition() + delVec);
 }
+void BattleField::getDirection(float dt)
+{
+	float distance, x0, y0;
+	cocos2d::Vector<Node*> allballs;
+
+	allballs = this->_BC->getChildren();
+
+	for (auto target : allballs)
+	{
+		Balls* target_p = dynamic_cast<Balls*>(target);
+		if (target_p != nullptr)
+		{
+			if (target_p->getID() == 2)
+			{
+				x0 = target_p->getPositionX() - nodeX;
+				y0 = target_p->getPositionY() - nodeY;
+				distance = (0.0001*(x0*x0) + 0.0001*(y0*y0));
+
+				if (target_p->getLevel() <= BGlevel)
+				{
+					if (distance >= 20)
+					{
+						x_ai = CCRANDOM_MINUS1_1() * 5120;
+						y_ai = CCRANDOM_MINUS1_1() * 5120;
+					}
+					else if (distance < 20)
+					{
+						if (target_p->getPositionX() >= nodeX)
+							x_ai = target_p->getPositionX() + x0;
+						else if (target_p->getPositionX() < nodeX)
+							x_ai = target_p->getPositionX() - x0;
+						if (target_p->getPositionY() >= nodeY)
+							y_ai = target_p->getPositionY() + y0;
+						else if (target_p->getPositionY() < nodeY)
+							y_ai = target_p->getPositionY() - y0;
+					}
+				}
+				else if (target_p->getLevel() > BGlevel)
+				{
+					if (distance >= 20)
+					{
+						x_ai = CCRANDOM_MINUS1_1() * 5120;
+						y_ai = CCRANDOM_MINUS1_1() * 5120;
+					}
+					else if (distance < 20)
+					{
+						x_ai = nodeX;
+						y_ai = nodeY;
+					}
+				}
+			}
+		}
+	}
+	BGlevel = 0;
+}
 void BattleField::update(float del)
 {
 	cocos2d::Vector<Node*> allballs;
@@ -44,26 +100,45 @@ void BattleField::update(float del)
 	for (auto target : allballs)
 	{
 		Balls* target_b = dynamic_cast<Balls*>(target);
-		if (target_b != nullptr&&target_b->getID() ==1)
+		if (target_b != nullptr&&target_b->getID() == 1)
 		{
 			target_b->movement(nowX, nowY, this->_BC, 1);
-			if (target_b->getPositionX() < -5120 + target_b->getRadius())target_b->setPositionX(-5120+target_b->getRadius());
-			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120-target_b->getRadius());
-			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120+target_b->getRadius());
-			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120-target_b->getRadius());
+			if (target_b->getPositionX() < -5120 + target_b->getRadius())target_b->setPositionX(-5120 + target_b->getRadius());
+			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120 - target_b->getRadius());
+			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120 + target_b->getRadius());
+			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120 - target_b->getRadius());
+			if (target_b->getLevel() > BGlevel)
+				BGlevel = target_b->getLevel();
 			target_b->swallow(this->_food);
-			if (target_b != nullptr&&_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&nodeCount<8)
+			target_b->swallow(this->_BC);
+			if (target_b != nullptr&&_keycode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE&&nodeCount < 100)
 			{
 				target_b->division(nowX, nowY, _keycode, this->_BC);
-			//	this->unscheduleUpdate();
-			//	for debug using
+				//	this->unscheduleUpdate();
+				//	for debug using
 			}
 			nodeSumX += target_b->getPositionX();
 			nodeSumY += target_b->getPositionY();
 			nowNodeCount++;
 			target_b->updateRadius();
 		}
+		if (target_b != nullptr&&target_b->getID() == 2)
+		{
+			target_b->movement(x_ai, y_ai, this->_BC, 2);
+			if (target_b->getPositionX() < -5120 + target_b->getRadius())target_b->setPositionX(-5120 + target_b->getRadius());
+			if (target_b->getPositionX() > 5120 - target_b->getRadius())target_b->setPositionX(5120 - target_b->getRadius());
+			if (target_b->getPositionY() < -5120 + target_b->getRadius())target_b->setPositionY(-5120 + target_b->getRadius());
+			if (target_b->getPositionY() > 5120 - target_b->getRadius())target_b->setPositionY(5120 - target_b->getRadius());
+		}
 	}
+	/*allballs = this->getChildren();
+	for (auto target : allballs)
+	{
+		Balls* target_c = dynamic_cast<Balls*>(target);
+		if (target_c != nullptr&&target_c->getID() == 2)
+			target_c->movement(x_ai, y_ai, this, 2);
+	}
+	*/
 	nodeCount = nowNodeCount;
 	if (nodeCount!=0)
 	{
@@ -77,8 +152,9 @@ void BattleField::update(float del)
 	{
 		k_listener->setEnabled(false);
 		(this->getParent()->getChildByTag(4))->unschedule(schedule_selector(ScoreCounter::scoreUpdate));
-		dynamic_cast<LabelTTF *>(_fail->getChildByName("result"))->setString(dynamic_cast<LabelTTF *>(this->getParent()->getChildByTag(4))->getString());
+		dynamic_cast<LabelTTF *>(_fail->getChildByName("result"))->setString(dynamic_cast<LabelTTF *>(this->getParent()->getChildByTag(4)->getChildByName("display"))->getString());
 		_fail->setVisible(true);
+		_fail->keyboardListener->setEnabled(true);
 	}
 	_keycode = cocos2d::EventKeyboard::KeyCode::KEY_NONE;
 
@@ -90,13 +166,19 @@ bool Combat::init()
 		return false;
 	}
 	Balls * myBall;
+
+
 	if(_meBall==1) myBall = Balls::createWithFileName("cry.png");
 	else if(_meBall==2) myBall = Balls::createWithFileName("xibi.png");
 	else if(_meBall==3) myBall = Balls::createWithFileName("huaJi.png");
 	else return false;
-	myBall->initStatus(10, 1);
+	myBall->initStatus(100, 1);
 	myBall->setPosition(Vec2(640,360));
 	this->addChild(myBall, 1);
+
+	//create Ai
+	auto aiBalls1 = AiBalls::createWithFileName(this, "food_b.png", 2);
+
 	return true;
 }
 void ESCMenu::quitToMainMenu()
@@ -146,7 +228,7 @@ bool FailMenu::init()
 	failImg->setPosition(Vec2(visibleSize.width / 2 + originPos.x, visibleSize.height / 2 + originPos.y));
 	this->addChild(failImg);
 	auto result = LabelTTF::create("0", "arial", 60);
-	result->setPosition(Vec2(640, 180));
+	result->setPosition(Vec2(640, 100));
 	this->addChild(result,2,"result");
 	keyboardListener= EventListenerKeyboard::create();
 	keyboardListener->onKeyPressed = [=](EventKeyboard::KeyCode keycode, Event* event)
@@ -175,6 +257,9 @@ bool BattleField::init()
 	//this->schedule(schedule_selector(BattleField::update), 0.02f);
 	//for debug using¡ü
 	this->scheduleUpdate();
+
+	this->schedule(schedule_selector(BattleField::getDirection), 0.2f);
+
 	auto m_listener = EventListenerMouse::create();
 	m_listener->onMouseMove = [=](Event * event)
 	{
@@ -274,7 +359,7 @@ void Food::foodCreator()
 	{
 		int xPos = CCRANDOM_MINUS1_1() * 4800;
 		int yPos = CCRANDOM_MINUS1_1() * 4800;
-		if (foodCount==0) 
+		if (foodCount == 0)
 		{
 			auto food = Balls::createWithFileName("food_r.png");
 			SpriteFrameCache::getInstance()->addSpriteFrame(food->getSpriteFrame(), "red");
@@ -283,7 +368,7 @@ void Food::foodCreator()
 			this->addChild(food);
 			foodCount += 1;
 		}
-		else if (foodCount==1) 
+		else if (foodCount == 1)
 		{
 			auto food = Balls::createWithFileName("food_y.png");
 			SpriteFrameCache::getInstance()->addSpriteFrame(food->getSpriteFrame(), "yellow");
@@ -292,7 +377,7 @@ void Food::foodCreator()
 			this->addChild(food);
 			foodCount += 1;
 		}
-		else if (foodCount==2) 
+		else if (foodCount == 2)
 		{
 			auto food = Balls::createWithFileName("food_b.png");
 			SpriteFrameCache::getInstance()->addSpriteFrame(food->getSpriteFrame(), "blue");
@@ -301,7 +386,7 @@ void Food::foodCreator()
 			this->addChild(food);
 			foodCount += 1;
 		}
-		else if (foodCount==3) 
+		else if (foodCount == 3)
 		{
 			auto food = Balls::createWithFileName("food_g.png");
 			SpriteFrameCache::getInstance()->addSpriteFrame(food->getSpriteFrame(), "green");
@@ -310,7 +395,7 @@ void Food::foodCreator()
 			this->addChild(food);
 			foodCount += 1;
 		}
-		else if (foodCount==4) 
+		else if (foodCount == 4)
 		{
 			auto food = Balls::createWithFileName("food_p.png");
 			SpriteFrameCache::getInstance()->addSpriteFrame(food->getSpriteFrame(), "purple");
@@ -319,7 +404,7 @@ void Food::foodCreator()
 			this->addChild(food);
 			foodCount += 1;
 		}
-		else 
+		else
 		{
 			auto food = Balls::createWithFileName("food_s.png");
 			SpriteFrameCache::getInstance()->addSpriteFrame(food->getSpriteFrame(), "scolor");
@@ -342,7 +427,7 @@ bool ScoreCounter::init()
 	auto timeBG = Sprite::create("time.png");
 	timeBG->setPosition(Vec2(154, 680));
 	timeBG->setScale(0.8);
-	this->addChild(timeBG,0);
+	this->addChild(timeBG, 0);
 	scoreDisplay->setColor(Color3B::WHITE);
 	scoreDisplay->setPosition(Vec2(150, 683));
 	this->addChild(scoreDisplay, 1, "display");
@@ -353,3 +438,28 @@ void ScoreCounter::scoreUpdate(float del)
 	score++;
 	dynamic_cast<LabelTTF *>(this->getChildByName("display"))->setString(__String::createWithFormat("%d:%d", (score / 60), (score % 60))->getCString());
 }
+
+
+		/*if (target_p->getID() == 1)
+		{
+			x0 = this->getPositionX() - target_p->getPositionX();
+			y0 = this->getPositionY() - target_p->getPositionY();
+
+			distance = (x0*x0) + (y0*y0);
+
+			if (distance <= 500)
+			{
+				x_ai = target_p->getPositionX();
+				y_ai = target_p->getPositionY();
+				return 0;
+			}
+		}
+	}
+
+	if (distance>500)
+	{
+		x_ai = CCRANDOM_0_1() * 1280;
+		y_ai = CCRANDOM_0_1() * 720;
+
+		return 0;
+	}*/

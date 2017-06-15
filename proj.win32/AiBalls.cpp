@@ -5,11 +5,11 @@ USING_NS_CC;
 AiBalls* AiBalls::createWithFileName(Layer*lSender, const std::string& filename, int ID)
 {
 	AiBalls* zz = new(std::nothrow) AiBalls;
-	if (zz&&zz->initWithFile(filename) && zz->initStatus(100, ID))
+	if (zz&&zz->initWithFile(filename) && zz->initStatus(50, ID))
 	{
 		zz->autorelease();
 		lSender->addChild(zz, 1);
-		zz->setPosition(Vec2(CCRANDOM_0_1() * 1280, CCRANDOM_0_1() * 720));
+		zz->setPosition(Vec2(-200, -200));
 		return zz;
 	}
 	CC_SAFE_DELETE(zz);
